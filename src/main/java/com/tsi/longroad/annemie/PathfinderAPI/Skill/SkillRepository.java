@@ -1,2 +1,7 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Skill;public interface SkillRepository {
+package com.tsi.longroad.annemie.PathfinderAPI.Skill;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SkillRepository extends JpaRepository<Skill, Integer>
+{
 }

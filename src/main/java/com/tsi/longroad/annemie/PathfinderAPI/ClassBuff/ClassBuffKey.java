@@ -1,2 +1,75 @@
-package com.tsi.longroad.annemie.PathfinderAPI.ClassBuff;public class ClassBuffKey {
+package com.tsi.longroad.annemie.PathfinderAPI.ClassBuff;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Id;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+@Embeddable
+public class ClassBuffKey implements Serializable
+{
+    @Column( name = "class_id")
+    private int classID;
+
+    @Column( name = "buff_id")
+    private int buffID;
+
+    @Column( name = "level")
+    private short level;
+
+    // CONSTRUCTORS
+    public ClassBuffKey()
+    {
+
+    }
+    public ClassBuffKey ( int classID, int buff_id, short level )
+    {
+        this.classID = classID;
+        this.buffID = buff_id;
+        this.level = level;
+    }
+
+
+    // GETTERS
+
+    public int getClassID()
+    {
+        return classID;
+    }
+
+    public int getBuffID()
+    {
+        return buffID;
+    }
+
+    public short getLevel()
+    {
+        return level;
+    }
+
+    // OVERRIDDEN METHODS
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        ClassBuffKey that = (ClassBuffKey) o;
+        return classID == that.classID && buffID == that.buffID && level == that.level;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(classID, buffID, level);
+    }
+
 }

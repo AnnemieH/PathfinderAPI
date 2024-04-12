@@ -1,16 +1,15 @@
-package com.tsi.longroad.annemie.PathfinderAPI.ClassSkill;
+package com.tsi.longroad.annemie.PathfinderAPI.CharClassSkill;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tsi.longroad.annemie.PathfinderAPI.CharClass.CharClass;
-import com.tsi.longroad.annemie.PathfinderAPI.ClassBuff.ClassBuffKey;
 import com.tsi.longroad.annemie.PathfinderAPI.Skill.Skill;
 import jakarta.persistence.*;
 
 @Entity
-public class ClassSkill
+public class CharClassSkill
 {
     @EmbeddedId
-    private ClassSkillKey id;
+    private CharClassSkillKey id;
 
     @ManyToOne
     @MapsId("classID")
@@ -21,12 +20,11 @@ public class ClassSkill
     @ManyToOne
     @MapsId("skillID")
     @JoinColumn ( name = "skill_id")
-    @JsonBackReference
     private Skill skill;
 
     // GETTERS
 
-    public ClassSkillKey getId()
+    public CharClassSkillKey getId()
     {
         return id;
     }

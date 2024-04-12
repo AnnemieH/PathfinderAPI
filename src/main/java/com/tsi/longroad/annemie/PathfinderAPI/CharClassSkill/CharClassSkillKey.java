@@ -1,11 +1,11 @@
-package com.tsi.longroad.annemie.PathfinderAPI.ClassSkill;
+package com.tsi.longroad.annemie.PathfinderAPI.CharClassSkill;
 
 import jakarta.persistence.Column;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ClassSkillKey implements Serializable
+public class CharClassSkillKey implements Serializable
 {
     @Column(name = "class_id")
     private int classID;
@@ -14,12 +14,12 @@ public class ClassSkillKey implements Serializable
     private short skillID;
 
     // CONSTRUCTORS
-    public ClassSkillKey()
+    public CharClassSkillKey()
     {
 
     }
 
-    public ClassSkillKey(int classID, short skillID)
+    public CharClassSkillKey(int classID, short skillID)
     {
         this.classID = classID;
         this.skillID = skillID;
@@ -51,7 +51,7 @@ public class ClassSkillKey implements Serializable
         {
             return false;
         }
-        ClassSkillKey that = (ClassSkillKey) o;
+        CharClassSkillKey that = (CharClassSkillKey) o;
         return classID == that.classID && skillID == that.skillID;
     }
 

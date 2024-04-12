@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Class;
+package com.tsi.longroad.annemie.PathfinderAPI.CharClass;
 
 import org.springframework.web.bind.annotation.*;
 

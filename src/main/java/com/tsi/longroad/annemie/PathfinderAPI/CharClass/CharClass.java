@@ -1,11 +1,12 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Class;
+package com.tsi.longroad.annemie.PathfinderAPI.CharClass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tsi.longroad.annemie.PathfinderAPI.Buff.Buff;
 import com.tsi.longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
+import com.tsi.longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -41,6 +42,14 @@ public class CharClass
 
     @Column (name = "will")
     private String will;
+
+    @Column ( name = "skill_ranks")
+    private short skillRanks;
+
+    @OneToMany
+    @JoinColumn ( name = "char_class_id" )
+    private Set<CharClassSkill> classSkills = new HashSet<>();
+
 
     // GETTERS
 
@@ -82,5 +91,15 @@ public class CharClass
     public Set<ClassBuff> getBuffs()
     {
         return buffs;
+    }
+
+    public short getSkillRanks()
+    {
+        return skillRanks;
+    }
+
+    public Set<CharClassSkill> getClassSkills()
+    {
+        return classSkills;
     }
 }
