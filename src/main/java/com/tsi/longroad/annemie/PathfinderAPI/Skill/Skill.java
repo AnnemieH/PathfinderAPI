@@ -34,7 +34,7 @@ public class Skill
         return skillName;
     }
 
-    public Attribute getAttribute()
+    public Attribute getAttribute() 
     {
         return attribute;
     }

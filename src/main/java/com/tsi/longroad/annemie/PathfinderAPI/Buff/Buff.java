@@ -34,7 +34,7 @@ public class Buff
     @JsonIgnore
     private Set<ClassBuff> classes = new HashSet<>();
 
-    @ManyToOne( cascade = CascadeType.ALL )
+    @ManyToOne( cascade = CascadeType.MERGE )
     @JoinColumn ( name = "buff_type_id")
     private BuffType buffType;
 

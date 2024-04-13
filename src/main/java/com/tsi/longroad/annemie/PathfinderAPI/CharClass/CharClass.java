@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tsi.longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
 import com.tsi.longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
+import com.tsi.longroad.annemie.PathfinderAPI.SpellcasterType.SpellcasterType;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -30,7 +31,8 @@ public class CharClass
     @JsonManagedReference
     private Set<ClassBuff> buffs;
 
-    //@JsonIgnore
+    @Column (name="hit_die")
+    private short hitDie;
     @Column (name="BAB")
     private String bab;
 
@@ -42,6 +44,10 @@ public class CharClass
 
     @Column (name = "will")
     private String will;
+
+    @ManyToOne( cascade = CascadeType.MERGE )
+    @JoinColumn( name = "spellcaster_type" )
+    private SpellcasterType spellcasterType;
 
     @Column ( name = "skill_ranks")
     private short skillRanks;
@@ -68,6 +74,11 @@ public class CharClass
         return archetypeID;
     }
 
+    public short getHitDie()
+    {
+        return hitDie;
+    }
+
     public String getBab()
     {
         return bab;
@@ -86,6 +97,11 @@ public class CharClass
     public String getWill()
     {
         return will;
+    }
+
+    public SpellcasterType getSpellcasterType()
+    {
+        return spellcasterType;
     }
 
     public Set<ClassBuff> getBuffs()

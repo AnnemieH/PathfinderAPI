@@ -21,7 +21,7 @@ public class BuffController
     ObjectMapper objectMapper = new ObjectMapper();
 
     // Display details of all buffs
-    @GetMapping("allBuffs")
+    @GetMapping("/allBuffs")
     public ResponseEntity<List<Buff>> getAllBuffs()
     {
 
