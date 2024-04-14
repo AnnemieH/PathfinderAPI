@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tsi.longroad.annemie.PathfinderAPI.BuffType.BuffType;
 import com.tsi.longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 
 import java.util.HashSet;

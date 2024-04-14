@@ -38,8 +38,6 @@ public class CharClassSkillKey implements Serializable
     }
 
     // OVERRIDDEN METHODS
-
-
     @Override
     public boolean equals(Object o)
     {

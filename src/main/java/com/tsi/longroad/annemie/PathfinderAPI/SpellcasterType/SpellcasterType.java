@@ -9,16 +9,16 @@ public class SpellcasterType
     @Id
     @Column ( name="spellcaster_type_id", unique = true )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private short spellcasterTypeId;
+    private short spellcasterTypeID;
 
     @Column ( name="name")
     private String spellcasterTypeName;
 
     // GETTERS
 
-    public short getSpellcasterTypeId()
+    public short getSpellcasterTypeID()
     {
-        return spellcasterTypeId;
+        return spellcasterTypeID;
     }
 
     public String getSpellcasterTypeName()

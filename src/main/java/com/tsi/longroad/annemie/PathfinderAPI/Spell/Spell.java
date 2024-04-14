@@ -1,10 +1,17 @@
 package com.tsi.longroad.annemie.PathfinderAPI.Spell;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tsi.longroad.annemie.PathfinderAPI.Save.Save;
-import com.tsi.longroad.annemie.PathfinderAPI.SpallSchool.SpellSchool;
+import com.tsi.longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
+import com.tsi.longroad.annemie.PathfinderAPI.SpellSchool.SpellSchool;
 import com.tsi.longroad.annemie.PathfinderAPI.SpellRange.SpellRange;
 import com.tsi.longroad.annemie.PathfinderAPI.Time.Time;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table( name = "spell" )
@@ -17,6 +24,10 @@ public class Spell
 
     @Column ( name = "spell_name" )
     private String spellname;
+
+    @OneToMany ( mappedBy = "spell" )
+    @JsonManagedReference
+    private List<SpellListSpell> spellLists = new ArrayList<>();
 
     @ManyToOne( cascade = CascadeType.MERGE )
     @JoinColumn ( name = "casting_time" )
@@ -63,6 +74,11 @@ public class Spell
     public String getSpellname()
     {
         return spellname;
+    }
+
+    public List<SpellListSpell> getSpellLists()
+    {
+        return spellLists;
     }
 
     public Time getCastingTime()

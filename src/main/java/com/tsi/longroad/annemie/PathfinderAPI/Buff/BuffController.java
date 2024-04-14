@@ -24,7 +24,6 @@ public class BuffController
     @GetMapping("/allBuffs")
     public ResponseEntity<List<Buff>> getAllBuffs()
     {
-
         return ResponseEntity.status(HttpStatus.OK).body(buffRepo.findAll());
     }
 

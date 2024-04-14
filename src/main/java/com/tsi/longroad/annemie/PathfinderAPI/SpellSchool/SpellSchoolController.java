@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.SpallSchool;
+package com.tsi.longroad.annemie.PathfinderAPI.SpellSchool;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
