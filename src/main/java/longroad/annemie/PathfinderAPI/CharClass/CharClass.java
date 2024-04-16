@@ -2,8 +2,11 @@ package com.tsi.longroad.annemie.PathfinderAPI.CharClass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.tsi.longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import com.tsi.longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
 import com.tsi.longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
+import com.tsi.longroad.annemie.PathfinderAPI.MagicSource.MagicSource;
+import com.tsi.longroad.annemie.PathfinderAPI.SpellList.SpellList;
 import com.tsi.longroad.annemie.PathfinderAPI.SpellcasterType.SpellcasterType;
 import jakarta.persistence.*;
 
@@ -48,6 +51,24 @@ public class CharClass
     @ManyToOne( cascade = CascadeType.MERGE )
     @JoinColumn( name = "spellcaster_type" )
     private SpellcasterType spellcasterType;
+
+    @ManyToOne( cascade = CascadeType.MERGE )
+    @JoinColumn( name = "casting_ability" )
+    private Attribute castingAbility;
+
+    @ManyToOne( cascade = CascadeType.MERGE )
+    @JoinColumn( name = "magic_source")
+    private MagicSource magicSource;
+
+    @ManyToOne( cascade = CascadeType.MERGE )
+    @JoinColumn( name = "spell_list" )
+    private SpellList spellList;
+
+    @Column( name = "spells_per_day" )
+    private String spellsPerDay;
+
+    @Column( name = "spells_known" )
+    private String spellsKnown;
 
     @Column ( name = "skill_ranks")
     private short skillRanks;
@@ -102,6 +123,31 @@ public class CharClass
     public SpellcasterType getSpellcasterType()
     {
         return spellcasterType;
+    }
+
+    public Attribute getCastingAbility()
+    {
+        return castingAbility;
+    }
+
+    public MagicSource getMagicSource()
+    {
+        return magicSource;
+    }
+
+    public SpellList getSpellList()
+    {
+        return spellList;
+    }
+
+    public String getSpellsPerDay()
+    {
+        return spellsPerDay;
+    }
+
+    public String getSpellsKnown()
+    {
+        return spellsKnown;
     }
 
     public Set<ClassBuff> getBuffs()
