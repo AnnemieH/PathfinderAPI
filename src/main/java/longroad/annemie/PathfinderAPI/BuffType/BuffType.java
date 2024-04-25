@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.BuffType;
+package longroad.annemie.PathfinderAPI.BuffType;
 
 import jakarta.persistence.*;
 

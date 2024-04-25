@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.CharClass;
+package longroad.annemie.PathfinderAPI.CharClass;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,9 +1,9 @@
-package com.tsi.longroad.annemie.PathfinderAPI.SpellListSpell;
+package longroad.annemie.PathfinderAPI.SpellListSpell;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tsi.longroad.annemie.PathfinderAPI.Spell.Spell;
-import com.tsi.longroad.annemie.PathfinderAPI.SpellList.SpellList;
+import longroad.annemie.PathfinderAPI.Spell.Spell;
+import longroad.annemie.PathfinderAPI.SpellList.SpellList;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,13 +16,13 @@ public class SpellListSpell
     @ManyToOne
     @MapsId( "spellID" )
     @JoinColumn ( name = "spell_id" )
-    @JsonBackReference
+    @JsonBackReference ( value = "spellSpellList" )
     private Spell spell;
 
     @ManyToOne
     @MapsId ( "spellListID" )
     @JoinColumn ( name = "spell_list_id" )
-    @JsonBackReference
+    @JsonBackReference ( value = "spellListSpells" )
     private SpellList spellList;
 
     @Column ( name = "level" )

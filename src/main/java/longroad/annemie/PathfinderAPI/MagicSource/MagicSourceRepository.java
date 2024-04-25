@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.MagicSource;
+package longroad.annemie.PathfinderAPI.MagicSource;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,14 +1,18 @@
-package com.tsi.longroad.annemie.PathfinderAPI.CharClass;
+package longroad.annemie.PathfinderAPI.CharClass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tsi.longroad.annemie.PathfinderAPI.Attribute.Attribute;
-import com.tsi.longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
-import com.tsi.longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
-import com.tsi.longroad.annemie.PathfinderAPI.MagicSource.MagicSource;
-import com.tsi.longroad.annemie.PathfinderAPI.SpellList.SpellList;
-import com.tsi.longroad.annemie.PathfinderAPI.SpellcasterType.SpellcasterType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import longroad.annemie.PathfinderAPI.Attribute.Attribute;
+import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
+import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
+import longroad.annemie.PathfinderAPI.MagicSource.MagicSource;
+import longroad.annemie.PathfinderAPI.SpellList.SpellList;
+import longroad.annemie.PathfinderAPI.SpellcasterType.SpellcasterType;
 import jakarta.persistence.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,17 +30,21 @@ public class CharClass
     private String className;
 
 
-    @Column (name="archetype_of")
+    @ManyToOne ( cascade = CascadeType.MERGE )
+    @JoinColumn (name="archetype_of")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Integer archetypeID;
+    private CharClass archetype;
 
-    @OneToMany ( mappedBy = "currClass")
-    @JsonManagedReference
+    @Column ( name="is_prestige" )
+    private boolean isPrestige;
+
+    @OneToMany ( cascade = CascadeType.MERGE )
+    @JoinColumn ( name = "class_id" )
     private Set<ClassBuff> buffs;
 
     @Column (name="hit_die")
     private short hitDie;
-    @Column (name="BAB")
+    @Column (name="bab")
     private String bab;
 
     @Column (name="fortitude")
@@ -73,7 +81,7 @@ public class CharClass
     @Column ( name = "skill_ranks")
     private short skillRanks;
 
-    @OneToMany
+    @OneToMany ( cascade = CascadeType.MERGE )
     @JoinColumn ( name = "char_class_id" )
     private Set<CharClassSkill> classSkills = new HashSet<>();
 
@@ -90,9 +98,14 @@ public class CharClass
         return className;
     }
 
-    public Integer getArchetypeID()
+    public CharClass getArchetype()
     {
-        return archetypeID;
+        return archetype;
+    }
+
+    public boolean getIsPrestige()
+    {
+        return isPrestige;
     }
 
     public short getHitDie()
@@ -163,5 +176,97 @@ public class CharClass
     public Set<CharClassSkill> getClassSkills()
     {
         return classSkills;
+    }
+
+    // SETTERS
+    public void setClassID(int classID)
+    {
+        this.classID = classID;
+    }
+
+    public void setClassName(String className)
+    {
+        this.className = className;
+    }
+
+    public void setArchetype(CharClass archetype)
+    {
+        this.archetype = archetype;
+    }
+
+    public void setIsPrestige(boolean prestige)
+    {
+        isPrestige = prestige;
+    }
+
+    public void setHitDie(short hitDie)
+    {
+        this.hitDie = hitDie;
+    }
+
+    public void setBab( String bab )
+    {
+        this.bab = bab;
+    }
+
+
+    public void setFortitude(String fortitude)
+    {
+        this.fortitude = fortitude;
+    }
+
+    public void setReflex(String reflex)
+    {
+        this.reflex = reflex;
+    }
+
+    public void setWill(String will)
+    {
+        this.will = will;
+    }
+
+    public void setSpellcasterType(SpellcasterType spellcasterType)
+    {
+        this.spellcasterType = spellcasterType;
+    }
+
+    public void setCastingAbility(Attribute castingAbility)
+    {
+        this.castingAbility = castingAbility;
+    }
+
+    public void setMagicSource(MagicSource magicSource)
+    {
+        this.magicSource = magicSource;
+    }
+
+    public void setSpellList(SpellList spellList)
+    {
+        this.spellList = spellList;
+    }
+
+    public void setSpellsPerDay(String spellsPerDay)
+    {
+        this.spellsPerDay = spellsPerDay;
+    }
+
+    public void setSpellsKnown(String spellsKnown)
+    {
+        this.spellsKnown = spellsKnown;
+    }
+
+    public void setBuffs(Set<ClassBuff> buffs)
+    {
+        this.buffs = buffs;
+    }
+
+    public void setSkillRanks(short skillRanks)
+    {
+        this.skillRanks = skillRanks;
+    }
+
+    public void setClassSkills(Set<CharClassSkill> classSkills)
+    {
+        this.classSkills = classSkills;
     }
 }

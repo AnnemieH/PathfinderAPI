@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.SpellRange;
+package longroad.annemie.PathfinderAPI.SpellRange;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

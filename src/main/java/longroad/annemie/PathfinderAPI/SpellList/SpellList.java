@@ -1,7 +1,7 @@
-package com.tsi.longroad.annemie.PathfinderAPI.SpellList;
+package longroad.annemie.PathfinderAPI.SpellList;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tsi.longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
+import longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class SpellList
     private String spellListName;
 
     @OneToMany ( mappedBy = "spellList" )
-    @JsonManagedReference
+    @JsonManagedReference (value = "spellListSpells" )
     private List<SpellListSpell> Spells = new ArrayList<>();
 
     // GETTERS

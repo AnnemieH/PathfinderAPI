@@ -8,7 +8,7 @@
 		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.tsi.longroad.annemie</groupId>
+	<groupId>longroad.annemie</groupId>
 	<artifactId>PathfinderAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PathfinderAPI</name>

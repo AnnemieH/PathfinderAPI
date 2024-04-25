@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Skill;
+package longroad.annemie.PathfinderAPI.Skill;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

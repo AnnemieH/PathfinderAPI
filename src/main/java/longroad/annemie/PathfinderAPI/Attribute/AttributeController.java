@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Attribute;
+package longroad.annemie.PathfinderAPI.Attribute;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

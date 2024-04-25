@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Buff;
+package longroad.annemie.PathfinderAPI.Buff;
 
 public class BuffNotFoundException extends Exception
 {

@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.CharClassSkill;
+package longroad.annemie.PathfinderAPI.CharClassSkill;
 
 import jakarta.persistence.Column;
 
@@ -35,6 +35,17 @@ public class CharClassSkillKey implements Serializable
     public short getSkillID()
     {
         return skillID;
+    }
+
+    // SETTERS
+    public void setClassID(int classID)
+    {
+        this.classID = classID;
+    }
+
+    public void setSkillID(short skillID)
+    {
+        this.skillID = skillID;
     }
 
     // OVERRIDDEN METHODS

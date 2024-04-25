@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.SpellSchool;
+package longroad.annemie.PathfinderAPI.SpellSchool;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

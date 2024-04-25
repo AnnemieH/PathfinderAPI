@@ -1,8 +1,9 @@
-package com.tsi.longroad.annemie.PathfinderAPI.ClassBuff;
+package longroad.annemie.PathfinderAPI.ClassBuff;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tsi.longroad.annemie.PathfinderAPI.Buff.Buff;
-import com.tsi.longroad.annemie.PathfinderAPI.CharClass.CharClass;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import longroad.annemie.PathfinderAPI.Buff.Buff;
+import longroad.annemie.PathfinderAPI.CharClass.CharClass;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,18 +15,13 @@ public class ClassBuff
     @ManyToOne
     @MapsId("classID")
     @JoinColumn(name = "class_id")
-    @JsonBackReference
+    @JsonBackReference( value = "classBuff" )
     private CharClass currClass;
 
     @ManyToOne
     @MapsId("buffID")
     @JoinColumn(name = "buff_id")
     private Buff buff;
-
-//    @ManyToOne
-//    @MapsId("level")
-//    @JoinColumn(name = "level")
-    //short level;
 
     // GETTERS
 
@@ -42,5 +38,21 @@ public class ClassBuff
     public Buff getBuff()
     {
         return buff;
+    }
+
+    // SETTERS
+    public void setId(ClassBuffKey id)
+    {
+        this.id = id;
+    }
+
+    public void setCurrClass(CharClass currClass)
+    {
+        this.currClass = currClass;
+    }
+
+    public void setBuff(Buff buff)
+    {
+        this.buff = buff;
     }
 }

@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Save;
+package longroad.annemie.PathfinderAPI.Save;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

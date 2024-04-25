@@ -1,6 +1,6 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Save;
+package longroad.annemie.PathfinderAPI.Save;
 
-import com.tsi.longroad.annemie.PathfinderAPI.Attribute.Attribute;
+import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import jakarta.persistence.*;
 
 @Entity

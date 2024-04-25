@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Attribute;
+package longroad.annemie.PathfinderAPI.Attribute;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

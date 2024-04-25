@@ -1,6 +1,6 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Skill;
+package longroad.annemie.PathfinderAPI.Skill;
 
-import com.tsi.longroad.annemie.PathfinderAPI.Attribute.Attribute;
+import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import jakarta.persistence.*;
 
 @Entity
@@ -42,5 +42,27 @@ public class Skill
     public boolean getTrainedOnly()
     {
         return trainedOnly;
+    }
+
+    // SETTERS
+
+    public void setSkillID(short skillID)
+    {
+        this.skillID = skillID;
+    }
+
+    public void setSkillName(String skillName)
+    {
+        this.skillName = skillName;
+    }
+
+    public void setAttribute(Attribute attribute)
+    {
+        this.attribute = attribute;
+    }
+
+    public void setTrainedOnly(boolean trainedOnly)
+    {
+        this.trainedOnly = trainedOnly;
     }
 }

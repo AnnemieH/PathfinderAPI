@@ -1,9 +1,10 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Buff;
+package longroad.annemie.PathfinderAPI.Buff;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tsi.longroad.annemie.PathfinderAPI.BuffType.BuffType;
-import com.tsi.longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
+import longroad.annemie.PathfinderAPI.BuffType.BuffType;
+import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -29,8 +30,7 @@ public class Buff
     private String[] buffDesc;
 
     @OneToMany(mappedBy = "buff")
-    @JsonManagedReference
-    @JsonIgnore
+    @JsonBackReference( value="buffClasses" )
     private Set<ClassBuff> classes = new HashSet<>();
 
     @ManyToOne( cascade = CascadeType.MERGE )
@@ -48,11 +48,6 @@ public class Buff
         }
     }
 
-    @PostUpdate
-    public void check()
-    {
-        System.out.println(buffDescriptionRaw);
-    }
 
 
     // GETTERS
@@ -127,7 +122,6 @@ public class Buff
         {
             buffDescriptionRaw = raw;
         }
-        System.out.println(getBuffDescriptionRaw());
     }
 
     public void setBuffType(BuffType buffType)

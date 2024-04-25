@@ -1,11 +1,11 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Spell;
+package longroad.annemie.PathfinderAPI.Spell;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tsi.longroad.annemie.PathfinderAPI.Save.Save;
-import com.tsi.longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
-import com.tsi.longroad.annemie.PathfinderAPI.SpellSchool.SpellSchool;
-import com.tsi.longroad.annemie.PathfinderAPI.SpellRange.SpellRange;
-import com.tsi.longroad.annemie.PathfinderAPI.Time.Time;
+import longroad.annemie.PathfinderAPI.Save.Save;
+import longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
+import longroad.annemie.PathfinderAPI.SpellSchool.SpellSchool;
+import longroad.annemie.PathfinderAPI.SpellRange.SpellRange;
+import longroad.annemie.PathfinderAPI.Time.Time;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class Spell
     private String spellname;
 
     @OneToMany ( mappedBy = "spell" )
-    @JsonManagedReference
+    @JsonManagedReference ( value = "spellSpellList" )
     private List<SpellListSpell> spellLists = new ArrayList<>();
 
     @ManyToOne( cascade = CascadeType.MERGE )

@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.ClassBuff;
+package longroad.annemie.PathfinderAPI.ClassBuff;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -49,6 +49,22 @@ public class ClassBuffKey implements Serializable
         return level;
     }
 
+    // SETTERS
+
+    public void setClassID(int classID)
+    {
+        this.classID = classID;
+    }
+
+    public void setBuffID(int buffID)
+    {
+        this.buffID = buffID;
+    }
+
+    public void setLevel(short level)
+    {
+        this.level = level;
+    }
     // OVERRIDDEN METHODS
 
     @Override

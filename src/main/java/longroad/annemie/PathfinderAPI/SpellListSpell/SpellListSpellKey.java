@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.SpellListSpell;
+package longroad.annemie.PathfinderAPI.SpellListSpell;
 
 import jakarta.persistence.Column;
 

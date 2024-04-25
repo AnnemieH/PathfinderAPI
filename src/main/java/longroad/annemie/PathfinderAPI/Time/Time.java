@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Time;
+package longroad.annemie.PathfinderAPI.Time;
 
 import jakarta.persistence.*;
 

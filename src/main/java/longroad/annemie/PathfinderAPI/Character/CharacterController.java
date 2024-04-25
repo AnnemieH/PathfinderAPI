@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Character;
+package longroad.annemie.PathfinderAPI.Character;
 
 import org.springframework.web.bind.annotation.RestController;
 

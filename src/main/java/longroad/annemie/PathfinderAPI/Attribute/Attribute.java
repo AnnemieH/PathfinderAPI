@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.Attribute;
+package longroad.annemie.PathfinderAPI.Attribute;
 
 import jakarta.persistence.*;
 
@@ -32,5 +32,22 @@ public class Attribute
     public String getShortName()
     {
         return shortName;
+    }
+
+    // SETTERS
+
+    public void setAttributeID(short attributeID)
+    {
+        this.attributeID = attributeID;
+    }
+
+    public void setAttributeName(String attributeName)
+    {
+        this.attributeName = attributeName;
+    }
+
+    public void setShortName(String shortName)
+    {
+        this.shortName = shortName;
     }
 }

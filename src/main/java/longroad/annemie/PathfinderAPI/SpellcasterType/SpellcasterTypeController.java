@@ -1,4 +1,4 @@
-package com.tsi.longroad.annemie.PathfinderAPI.SpellcasterType;
+package longroad.annemie.PathfinderAPI.SpellcasterType;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
