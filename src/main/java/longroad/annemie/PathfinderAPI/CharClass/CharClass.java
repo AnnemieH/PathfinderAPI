@@ -1,8 +1,6 @@
 package longroad.annemie.PathfinderAPI.CharClass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
@@ -10,9 +8,6 @@ import longroad.annemie.PathfinderAPI.MagicSource.MagicSource;
 import longroad.annemie.PathfinderAPI.SpellList.SpellList;
 import longroad.annemie.PathfinderAPI.SpellcasterType.SpellcasterType;
 import jakarta.persistence.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONString;
 
 import java.util.HashSet;
 import java.util.Set;

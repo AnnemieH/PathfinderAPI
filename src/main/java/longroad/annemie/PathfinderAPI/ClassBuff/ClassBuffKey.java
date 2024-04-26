@@ -67,7 +67,6 @@ public class ClassBuffKey implements Serializable
     }
 
     // OVERRIDDEN METHODS
-
     @Override
     public boolean equals(Object o)
     {
