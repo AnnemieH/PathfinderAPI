@@ -19,18 +19,6 @@ public class ClassBuffKey implements Serializable
     @Column( name = "level")
     private short level;
 
-    // CONSTRUCTORS
-    public ClassBuffKey()
-    {
-
-    }
-    public ClassBuffKey ( int classID, int buff_id, short level )
-    {
-        this.classID = classID;
-        this.buffID = buff_id;
-        this.level = level;
-    }
-
 
     // GETTERS
 
@@ -65,6 +53,19 @@ public class ClassBuffKey implements Serializable
     {
         this.level = level;
     }
+
+    // CONSTRUCTORS
+    public ClassBuffKey()
+    {
+
+    }
+    public ClassBuffKey ( int classID, int buffID, short level )
+    {
+        this.classID = classID;
+        this.buffID = buffID;
+        this.level = level;
+    }
+
     // OVERRIDDEN METHODS
 
     @Override

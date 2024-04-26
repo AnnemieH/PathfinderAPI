@@ -12,15 +12,15 @@ public class ClassBuff
     @EmbeddedId
     private ClassBuffKey id;
 
-    @ManyToOne
-    @MapsId("classID")
-    @JoinColumn(name = "class_id")
+    @ManyToOne ( cascade = CascadeType.MERGE )
+    @MapsId ( "classID" )
+    @JoinColumn ( name = "class_id" )
     @JsonBackReference( value = "classBuff" )
     private CharClass currClass;
 
-    @ManyToOne
-    @MapsId("buffID")
-    @JoinColumn(name = "buff_id")
+    @ManyToOne ( cascade = CascadeType.MERGE )
+    @MapsId ( "buffID" )
+    @JoinColumn ( name = "buff_id" )
     private Buff buff;
 
     // GETTERS

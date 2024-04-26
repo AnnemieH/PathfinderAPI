@@ -69,6 +69,7 @@ public class ClassController
         return ResponseEntity.status(HttpStatus.CREATED).body(charClass);
     }
 
+    // CONSTRUCTORS
 
     public ClassController ( ClassRepository classRepo)
     {
