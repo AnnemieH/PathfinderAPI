@@ -21,7 +21,6 @@ public class ClassBuffKey implements Serializable
 
 
     // GETTERS
-
     public int getClassID()
     {
         return classID;

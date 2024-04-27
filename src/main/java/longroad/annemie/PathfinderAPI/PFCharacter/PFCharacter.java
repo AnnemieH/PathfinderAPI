@@ -1,6 +1,7 @@
 package longroad.annemie.PathfinderAPI.PFCharacter;
 
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.PFCharacterAttribute.PFCharacterAttribute;
 import longroad.annemie.PathfinderAPI.PFCharacterCharClass.PFCharacterCharClass;
 import longroad.annemie.PathfinderAPI.PFCharacterSkill.PFCharacterSkill;
 import longroad.annemie.PathfinderAPI.Race.Race;
@@ -29,6 +30,10 @@ public class PFCharacter
 
     @OneToMany ( cascade = CascadeType.MERGE )
     @JoinColumn ( name = "character_id" )
+    private Set <PFCharacterAttribute> attributes;
+
+    @OneToMany ( cascade = CascadeType.MERGE )
+    @JoinColumn ( name = "character_id" )
     private Set <PFCharacterSkill> skillRanks;
 
 
@@ -51,6 +56,11 @@ public class PFCharacter
     public Set<PFCharacterCharClass> getCharClasses()
     {
         return charClasses;
+    }
+
+    public Set<PFCharacterAttribute> getAttributes()
+    {
+        return attributes;
     }
 
     public Set<PFCharacterSkill> getSkillRanks()
