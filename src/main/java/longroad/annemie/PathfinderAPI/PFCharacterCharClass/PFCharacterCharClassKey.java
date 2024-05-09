@@ -3,10 +3,11 @@ package longroad.annemie.PathfinderAPI.PFCharacterCharClass;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class PFCharacterCharClassKey
+public class PFCharacterCharClassKey implements Serializable
 {
     @Column ( name = "Character_character_id" )
     private int characterID;

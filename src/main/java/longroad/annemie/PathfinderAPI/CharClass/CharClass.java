@@ -33,8 +33,7 @@ public class CharClass
     @Column ( name="is_prestige" )
     private boolean isPrestige;
 
-    @OneToMany ( cascade = CascadeType.MERGE )
-    @JoinColumn ( name = "class_id" )
+    @OneToMany ( mappedBy = "currClass", orphanRemoval = true )
     private Set<ClassBuff> buffs;
 
     @Column (name="hit_die")

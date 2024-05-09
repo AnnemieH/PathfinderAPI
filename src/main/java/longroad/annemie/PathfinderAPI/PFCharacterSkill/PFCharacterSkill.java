@@ -18,7 +18,7 @@ public class PFCharacterSkill
     @JsonBackReference ( value = "characterSkill" )
     private PFCharacter character;
 
-    @ManyToOne ( cascade = CascadeType.MERGE )
+    @ManyToOne
     @MapsId ( "skillID" )
     @JoinColumn ( name = "skill_id" )
     private Skill skill;

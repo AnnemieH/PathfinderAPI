@@ -30,8 +30,7 @@ public class Race
     @JoinColumn( name = "type" )
     private CreatureType type;
 
-    @OneToMany( cascade = CascadeType.MERGE )
-    @JoinColumn( name = "race_id" )
+    @OneToMany( mappedBy = "race" )
     @JsonInclude( JsonInclude.Include.NON_EMPTY )
     private Set<RaceCreatureSubtype> subtype;
 
@@ -41,7 +40,7 @@ public class Race
     @Column ( name = "buff_slots" )
     private String buffSlots;
 
-    @OneToMany ( cascade = CascadeType.MERGE )
+    @OneToMany
     @JoinColumn ( name = "race_id" )
     private Set <RaceBuff> buffs;
 

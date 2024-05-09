@@ -1,20 +1,23 @@
 package longroad.annemie.PathfinderAPI.PFCharacterAttribute;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import longroad.annemie.PathfinderAPI.PFCharacter.PFCharacter;
+
+import java.util.Objects;
 
 @Entity
 @Table ( name = "character_attribute" )
 public class PFCharacterAttribute
 {
-    @EmbeddedId PFCharacterAttributeKey id;
+    @EmbeddedId
+    private PFCharacterAttributeKey id;
 
     @ManyToOne ( cascade = CascadeType.MERGE )
     @MapsId ( "characterID" )
     @JoinColumn ( name = "character_id" )
-    @JsonBackReference ( value = "characterAttribute")
+    @JsonIgnore
     private PFCharacter character;
 
     @ManyToOne ( cascade = CascadeType.MERGE )
@@ -24,6 +27,18 @@ public class PFCharacterAttribute
 
     @Column( name = "value" )
     private short value;
+
+    @Override
+    public String toString()
+    {
+        return "PFCharacterAttribute{" +
+               "characterID=" + id.getCharacterID() +
+               ", attributeID=" + id.getAttributeID() +
+               ", character=" + character.getName() +
+               ", attribute=" + attribute.getAttributeName() +
+               ", value=" + value +
+               '}';
+    }
 
     // GETTERS
 
@@ -66,5 +81,48 @@ public class PFCharacterAttribute
     public void setValue(short value)
     {
         this.value = value;
+    }
+
+    // CONSTRUCTORS
+    public PFCharacterAttribute ()
+    {
+        this.id = new PFCharacterAttributeKey();
+        this.character = new PFCharacter();
+        this.attribute = new Attribute();
+        this.value = 0;
+    }
+
+    public PFCharacterAttribute (
+            PFCharacterAttributeKey id,
+            PFCharacter character,
+            Attribute attribute,
+            short value
+                         )
+    {
+        this.id = id;
+        this.character = character;
+        this.attribute = attribute;
+        this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        PFCharacterAttribute attribute1 = (PFCharacterAttribute) o;
+        return value == attribute1.value && Objects.equals(id, attribute1.id) && Objects.equals(character, attribute1.character) && Objects.equals(attribute, attribute1.attribute);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, character, attribute, value);
     }
 }

@@ -25,6 +25,7 @@ public class ClassController
     @Autowired
     CharClassSkillRepository charClassSkillRepo;
 
+
     // Display details of all classes
     @GetMapping("allClasses")
     public ResponseEntity<List<CharClass>> getAllClasses()

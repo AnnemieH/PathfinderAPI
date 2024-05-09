@@ -1,9 +1,12 @@
 package longroad.annemie.PathfinderAPI.PFCharacterCharClass;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.CharClass.CharClass;
 import longroad.annemie.PathfinderAPI.PFCharacter.PFCharacter;
+
+import java.util.Objects;
 
 @Entity
 @Table ( name = "character_class" )
@@ -15,10 +18,10 @@ public class PFCharacterCharClass
     @ManyToOne ( cascade = CascadeType.MERGE )
     @MapsId ( "characterID" )
     @JoinColumn ( name = "Character_character_id" )
-    @JsonBackReference ( value = "characterClass" )
+    @JsonIgnore
     private PFCharacter character;
 
-    @ManyToOne ( cascade = CascadeType.MERGE )
+    @ManyToOne
     @MapsId ( "classID" )
     @JoinColumn ( name = "classes_class_id" )
     private CharClass charClass;
@@ -66,5 +69,45 @@ public class PFCharacterCharClass
     public void setLevel(short level)
     {
         this.level = level;
+    }
+
+    // CONSTRUCTORS
+    public PFCharacterCharClass ()
+    {
+
+    }
+
+    public PFCharacterCharClass (
+            PFCharacterCharClassKey id,
+            PFCharacter pfCharacter,
+            CharClass charClass,
+            short level
+            )
+    {
+        this.id = id;
+        this.character = pfCharacter;
+        this.charClass = charClass;
+        this.level = level;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+        PFCharacterCharClass that = (PFCharacterCharClass) o;
+        return level == that.level && Objects.equals(id, that.id) && Objects.equals(character, that.character) && Objects.equals(charClass, that.charClass);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, character, charClass, level);
     }
 }

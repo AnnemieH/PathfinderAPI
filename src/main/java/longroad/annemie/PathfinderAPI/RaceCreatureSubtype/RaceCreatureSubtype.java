@@ -12,13 +12,13 @@ public class RaceCreatureSubtype
     @EmbeddedId
     private RaceCreatureSubtypeKey id;
 
-    @ManyToOne ( cascade = CascadeType.MERGE )
+    @ManyToOne
     @MapsId ( "raceID" )
     @JoinColumn ( name = "race_id" )
     @JsonIgnore
     private Race race;
 
-    @ManyToOne ( cascade = CascadeType.MERGE )
+    @ManyToOne
     @MapsId ( "creatureSubtypeID" )
     @JoinColumn ( name = "creature_subtype_id" )
     private CreatureSubtype creatureSubtype;
