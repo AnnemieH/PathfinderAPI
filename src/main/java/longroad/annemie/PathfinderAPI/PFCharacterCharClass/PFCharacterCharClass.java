@@ -15,7 +15,7 @@ public class PFCharacterCharClass
     @EmbeddedId
     private PFCharacterCharClassKey id;
 
-    @ManyToOne ( cascade = CascadeType.MERGE )
+    @ManyToOne
     @MapsId ( "characterID" )
     @JoinColumn ( name = "Character_character_id" )
     @JsonIgnore

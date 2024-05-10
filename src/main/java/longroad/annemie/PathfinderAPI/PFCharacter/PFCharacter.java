@@ -1,11 +1,16 @@
 package longroad.annemie.PathfinderAPI.PFCharacter;
 
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Attribute.Attribute;
+import longroad.annemie.PathfinderAPI.CharClass.CharClass;
 import longroad.annemie.PathfinderAPI.PFCharacterAttribute.PFCharacterAttribute;
+import longroad.annemie.PathfinderAPI.PFCharacterAttribute.PFCharacterAttributeKey;
 import longroad.annemie.PathfinderAPI.PFCharacterCharClass.PFCharacterCharClass;
 import longroad.annemie.PathfinderAPI.PFCharacterCharClass.PFCharacterCharClassKey;
 import longroad.annemie.PathfinderAPI.PFCharacterSkill.PFCharacterSkill;
+import longroad.annemie.PathfinderAPI.PFCharacterSkill.PFCharacterSkillKey;
 import longroad.annemie.PathfinderAPI.Race.Race;
+import longroad.annemie.PathfinderAPI.Skill.Skill;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +28,7 @@ public class PFCharacter
     @Column ( name = "character_name" )
     private String name;
 
-    @ManyToOne ( cascade = CascadeType.MERGE )
+    @ManyToOne
     @JoinColumn ( name = "race_id" )
     private Race race;
 
@@ -37,7 +42,7 @@ public class PFCharacter
     private Set<PFCharacterSkill> skillRanks = new HashSet<>();
 
     // MEMBER FUNCTIONS
-    // Add ids to everything that needs them
+    // Add ids to classes, attributes & skills
     public void addID( int charID )
     {
         this.characterID = charID;
@@ -47,12 +52,147 @@ public class PFCharacter
         for ( PFCharacterCharClass charClass : charClasses )
         {
             charClass.getId().setCharacterID( charID );
+            charClass.setCharacter( this );
         }
 
         // Assign IDs for attributes
         for ( PFCharacterAttribute attribute : attributes )
         {
             attribute.getId().setCharacterID( charID );
+            attribute.setCharacter( this );
+        }
+
+        // Assign IDs for skills
+        for ( PFCharacterSkill skill : skillRanks )
+        {
+            skill.getId().setCharacterID( charID );
+            skill.setCharacter( this );
+        }
+    }
+
+    // Add a new class
+    public void addClass ( CharClass charClass )
+    {
+        // Define the key
+        PFCharacterCharClassKey classKey = new PFCharacterCharClassKey();
+        classKey.setCharacterID( getCharacterID() );
+        classKey.setClassID( charClass.getClassID() );
+
+        // Create a new element of the join table
+        PFCharacterCharClass characterCharClass = new PFCharacterCharClass();
+        characterCharClass.setId(classKey);
+
+        // Add the character and add to set of PFCharacterCharClasses
+        characterCharClass.setCharacter(this);
+        charClasses.add( characterCharClass );
+    }
+
+    // Remove an existing class
+    public void removeClass ( CharClass charClass )
+    {
+        // Iterate through existing classes to see if
+        // any match the one we want to remove
+        for ( PFCharacterCharClass characterCharClass : charClasses )
+        {
+            if ( characterCharClass.getCharClass().getClassID() == charClass.getClassID() )
+            {
+                charClasses.remove( characterCharClass );
+            }
+        }
+    }
+
+    // Add a new attribute
+    public void addAttribute (Attribute attribute )
+    {
+        // Define the key
+        PFCharacterAttributeKey attributeKey = new PFCharacterAttributeKey();
+        attributeKey.setAttributeID(attribute.getAttributeID());
+        attributeKey.setCharacterID(getCharacterID());
+
+        // Create a new element of the join table
+        PFCharacterAttribute characterAttribute = new PFCharacterAttribute();
+        characterAttribute.setId(attributeKey);
+
+        // Add the character and add to set of PFCharacterAttributes
+        characterAttribute.setCharacter( this );
+        attributes.add( characterAttribute );
+    }
+
+    // Add a new skill
+    private void addSkill( Skill skill, short rank )
+    {
+        // Define the key
+        PFCharacterSkillKey skillKey = new PFCharacterSkillKey();
+        skillKey.setCharacterID( getCharacterID() );
+        skillKey.setSkillID( skill.getSkillID() );
+
+        // Create a new element of the join table
+        PFCharacterSkill characterSkill = new PFCharacterSkill();
+        characterSkill.setId(skillKey);
+
+        // Add the character, skill & rank and save
+        characterSkill.setCharacter( this );
+        characterSkill.setSkill( skill );
+        characterSkill.setRanks( rank );
+        skillRanks.add( characterSkill );
+    }
+
+    // Remove an existing skill
+    private void removeSkill ( Skill skill )
+    {
+        // Iterate through existing skills to see if
+        // any match the one we want to remove
+        for ( PFCharacterSkill characterSkill : skillRanks )
+        {
+            if ( characterSkill.getSkill().getSkillID() == skill.getSkillID() )
+            {
+                charClasses.remove( characterSkill );
+            }
+        }
+    }
+
+    // Update the current skills
+    public void updateSkills ( Set<PFCharacterSkill> futureSkills )
+    {
+        Set<PFCharacterSkill> skillsToAdd = new HashSet<>();
+
+        // Add all skills to be whittled down later
+        skillsToAdd.addAll(futureSkills);
+
+        // Iterate through the current skills to determine what we need to do with the skill
+        for ( PFCharacterSkill characterSkill : skillRanks )
+        {
+
+            boolean toBeRemoved = true;
+            
+            for ( PFCharacterSkill newSkill : futureSkills )
+            {
+                // If characterSkill is present in futureSkills,
+                // Remove it from skillsToAdd and update the ranks
+                if ( characterSkill.getSkill().getSkillID() == newSkill.getSkill().getSkillID() )
+                {
+                    skillsToAdd.remove( newSkill );
+                    characterSkill.setRanks( newSkill.getRanks() );
+
+                    // If the skill ranks are positive, don't remove it. Otherwise do
+                    if ( characterSkill.getRanks() > 0 )
+                    {
+                        toBeRemoved = false;
+                    }
+                }
+            }
+
+            // If characterSkill has been marked for removal, remove it
+            if ( toBeRemoved )
+            {
+                removeSkill(characterSkill.getSkill());
+            }
+        }
+
+        // For each skill remaining in skillsToAdd, add them
+        for ( PFCharacterSkill newSkill : skillsToAdd )
+        {
+            addSkill( newSkill.getSkill(), newSkill.getRanks() );
         }
     }
 

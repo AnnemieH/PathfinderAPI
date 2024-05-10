@@ -64,81 +64,35 @@ public class PFCharacterController
         }
     }
 
-    // Add every class
-    public void addClasses( PFCharacter pfChar, Set<PFCharacterCharClass> classes)
-    {
-        for ( PFCharacterCharClass charClass : classes )
-        {
-            // Define the key
-            PFCharacterCharClassKey classKey = new PFCharacterCharClassKey();
-            classKey.setCharacterID(pfChar.getCharacterID());
-            classKey.setClassID(charClass.getCharClass().getClassID());
-            charClass.setId(classKey);
-
-            // Add the character and save
-            charClass.setCharacter(pfChar);
-            classRepository.save(charClass);
-        }
-    }
-
-    // Add every attribute
-    public void addAttributes ( PFCharacter pfChar, Set<PFCharacterAttribute> attributes )
-    {
-        for ( PFCharacterAttribute attribute : attributes )
-        {
-            // Define the key
-            PFCharacterAttributeKey attributeKey = new PFCharacterAttributeKey();
-            attributeKey.setAttributeID(attribute.getAttribute().getAttributeID());
-            attributeKey.setCharacterID(pfChar.getCharacterID());
-            attribute.setId(attributeKey);
-
-            // Add the character and save
-            attribute.setCharacter(pfChar);
-
-            attributeRepo.save(attribute);
-        }
-    }
-
-    // Add every skill
-    public void addSkills( PFCharacter pfChar, Set<PFCharacterSkill> skills)
-    {
-        for ( PFCharacterSkill skill : skills )
-        {
-            // Define the key
-            PFCharacterSkillKey skillKey = new PFCharacterSkillKey();
-            skillKey.setCharacterID(pfChar.getCharacterID());
-            skillKey.setSkillID(skill.getSkill().getSkillID());
-            skill.setId(skillKey);
-
-            // Add the character and save
-            skill.setCharacter(pfChar);
-            skillRepo.save(skill);
-        }
-    }
-
 
     // Add a new character
+    @Transactional
     @PostMapping
     public ResponseEntity <PFCharacter> addChar ( @RequestBody PFCharacter pfCharacter )
     {
-        // Create a skeleton character
-        PFCharacter bareChar = new PFCharacter();
-        bareChar.setName(pfCharacter.getName());
-        bareChar.setRace(pfCharacter.getRace());
-        characterRepo.save(bareChar);
+        // Add the raw character
+        characterRepo.save( pfCharacter );
 
-        // Add attributes to the skeleton
-        addAttributes( bareChar, pfCharacter.getAttributes() );
+        pfCharacter.addID( pfCharacter.getCharacterID() );
 
-        // Add classes to the skeleton
-        addClasses(bareChar, pfCharacter.getCharClasses());
-        //bareChar.setCharClasses(pfCharacter.getCharClasses());
 
-        // Add skills to the skeleton
-        addSkills(bareChar, pfCharacter.getSkillRanks());
-        //bareChar.setSkillRanks(pfCharacter.getSkillRanks());
+        // In turn, add classes, attributes & skills to their respective join tables
+        for ( PFCharacterCharClass charClass : pfCharacter.getCharClasses() )
+        {
+            classRepository.save( charClass );
+        }
 
-        return ResponseEntity.status( HttpStatus.CREATED ).body(bareChar);
+        for ( PFCharacterAttribute attribute : pfCharacter.getAttributes() )
+        {
+            attributeRepo.save( attribute );
+        }
+
+        for ( PFCharacterSkill skill : pfCharacter.getSkillRanks() )
+        {
+            skillRepo.save( skill );
+        }
+
+        return ResponseEntity.status( HttpStatus.CREATED ).body(pfCharacter);
     }
 
     // Patch characters
@@ -170,36 +124,45 @@ public class PFCharacterController
     {
         patch.forEach((key, value) ->
                       {
-                          Field field = ReflectionUtils.findField(PFCharacter.class, key);
-                          field.setAccessible(true);
-
                           if ( key == "skillRanks" )
                           {
                               Set<?> skillSet = objectMapper.convertValue(value, Set.class);
 
                               Set < PFCharacterSkill > finalSkillSet = new HashSet<>();
 
+                              // Cast all the new skills into finalSkillSet
                               for ( Object skill : skillSet )
                               {
-                                  try
-                                  {
-                                      // If skill already exists, grab it from the relevant repository
-                                      PFCharacterSkill castSkill = objectMapper.convertValue(skill, PFCharacterSkill.class);
-                                      PFCharacterSkill foundSkill = skillRepo.findById(castSkill.getId())
-                                              .orElseThrow(() -> new Exception("Skill not found"));
+                                  PFCharacterSkill castSkill = objectMapper.convertValue(skill, PFCharacterSkill.class);
+                                  castSkill.setCharacter( targetChar );
 
-                                      finalSkillSet.add(foundSkill);
-                                  } catch (Exception e)
+                                  finalSkillSet.add(castSkill);
+                              }
+
+                              targetChar.updateSkills( finalSkillSet );
+
+                              //skillRepo.saveAll( targetChar.getSkillRanks() );
+
+                              // Iterate through the skills. If the rank is positive, save it. Otherwise remove it
+                              for ( PFCharacterSkill skill : targetChar.getSkillRanks() )
+                              {
+                                  if ( skill.getRanks() > 0 )
                                   {
-                                      System.err.println(e.toString());
+                                      skillRepo.save(skill);
+                                  }
+                                  else
+                                  {
+                                      skillRepo.deleteById( skill.getId() );
                                   }
                               }
 
-
-                              ReflectionUtils.setField( field, targetChar, finalSkillSet );
+//
+//                              ReflectionUtils.setField( field, targetChar, finalSkillSet );
                           }
                           else
                           {
+                              Field field = ReflectionUtils.findField(PFCharacter.class, key);
+                              field.setAccessible(true);
                               ReflectionUtils.setField( field, targetChar, value );
                           }
 
