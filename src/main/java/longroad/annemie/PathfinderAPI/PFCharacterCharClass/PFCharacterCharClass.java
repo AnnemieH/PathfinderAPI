@@ -29,6 +29,9 @@ public class PFCharacterCharClass
     @Column ( name = "level" )
     private short level;
 
+    @Column ( name = "hp" )
+    private int hp;
+
     // GETTERS
     public PFCharacterCharClassKey getId()
     {
@@ -50,6 +53,11 @@ public class PFCharacterCharClass
         return level;
     }
 
+    public int getHp()
+    {
+        return hp;
+    }
+
     // SETTERS
     public void setId(PFCharacterCharClassKey id)
     {
@@ -69,6 +77,11 @@ public class PFCharacterCharClass
     public void setLevel(short level)
     {
         this.level = level;
+    }
+
+    public void setHp(int hp)
+    {
+        this.hp = hp;
     }
 
     // CONSTRUCTORS
