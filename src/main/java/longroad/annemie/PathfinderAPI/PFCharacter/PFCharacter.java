@@ -13,7 +13,6 @@ import longroad.annemie.PathfinderAPI.Race.Race;
 import longroad.annemie.PathfinderAPI.Skill.Skill;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -116,6 +115,20 @@ public class PFCharacter
         // Add the character and add to set of PFCharacterAttributes
         characterAttribute.setCharacter( this );
         attributes.add( characterAttribute );
+    }
+
+    // Given an id, find the respective attribute. Otherwise, return null.
+    public PFCharacterAttribute getCharacterAttributeByID ( short id )
+    {
+        for ( PFCharacterAttribute attribute : attributes )
+        {
+            if ( attribute.getId().getAttributeID() == id )
+            {
+                return attribute;
+            }
+        }
+
+        return null;
     }
 
     // Add a new skill

@@ -141,9 +141,7 @@ public class PFCharacterController
 
                               targetChar.updateSkills( finalSkillSet );
 
-                              //skillRepo.saveAll( targetChar.getSkillRanks() );
-
-                              // Iterate through the skills. If the rank is positive, save it. Otherwise remove it
+                              // Iterate through the skills. If the rank is positive, save it. Otherwise, remove it
                               for ( PFCharacterSkill skill : targetChar.getSkillRanks() )
                               {
                                   if ( skill.getRanks() > 0 )
@@ -156,8 +154,21 @@ public class PFCharacterController
                                   }
                               }
 
-//
-//                              ReflectionUtils.setField( field, targetChar, finalSkillSet );
+                          }
+                          else if ( key == "attributes" )
+                          {
+                              Set<?> attributeSet = objectMapper.convertValue(value, Set.class);
+
+                              // For each attribute we wish to modify, update the correct element and save it
+                              for ( Object attribute : attributeSet )
+                              {
+                                  PFCharacterAttribute castAttribute = objectMapper.convertValue(attribute, PFCharacterAttribute.class);
+
+                                  PFCharacterAttribute target = targetChar.getCharacterAttributeByID( castAttribute.getId().getAttributeID() );
+                                  target.setValue(castAttribute.getValue() );
+
+                                  attributeRepo.save( target );
+                              }
                           }
                           else
                           {
