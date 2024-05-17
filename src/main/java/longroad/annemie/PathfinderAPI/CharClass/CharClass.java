@@ -75,8 +75,7 @@ public class CharClass
     @Column ( name = "skill_ranks")
     private short skillRanks;
 
-    @OneToMany ( cascade = CascadeType.MERGE )
-    @JoinColumn ( name = "char_class_id" )
+    @OneToMany ( mappedBy = "charClass", orphanRemoval = true )
     private Set<CharClassSkill> classSkills = new HashSet<>();
 
 

@@ -1,11 +1,17 @@
 package longroad.annemie.PathfinderAPI.CharClass;
 
+import jakarta.transaction.Transactional;
+import longroad.annemie.PathfinderAPI.Buff.Buff;
+import longroad.annemie.PathfinderAPI.Buff.BuffRepository;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkillKey;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkillRepository;
 import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
 import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuffKey;
 import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuffRepository;
+import longroad.annemie.PathfinderAPI.PFCharacter.PFCharacter;
+import longroad.annemie.PathfinderAPI.Skill.Skill;
+import longroad.annemie.PathfinderAPI.Skill.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +29,11 @@ public class ClassController
     @Autowired
     ClassBuffRepository classBuffRepo;
     @Autowired
+    BuffRepository buffRepo;
+    @Autowired
     CharClassSkillRepository charClassSkillRepo;
+    @Autowired
+    SkillRepository skillRepo;
 
 
     // Display details of all classes
@@ -34,6 +44,7 @@ public class ClassController
     }
 
     // Post a new class
+    @Transactional
     @PostMapping("allClasses")
     public ResponseEntity<CharClass> addCharClass( @RequestBody CharClass charClass )
     {
@@ -50,7 +61,20 @@ public class ClassController
             classBuff.setId(key);
 
             classBuff.setCurrClass(charClass);
-            classBuffRepo.save(classBuff);
+
+            try
+            {
+                Buff buff = buffRepo.findById(key.getBuffID())
+                        .orElseThrow( () -> new Exception ("No such buff found") );
+
+                classBuff.setBuff(buff);
+
+                classBuffRepo.save(classBuff);
+            }
+            catch ( Exception e )
+            {
+                System.out.println( e.toString() );
+            }
         }
 
         // Add class skills to their join table
@@ -62,6 +86,19 @@ public class ClassController
 
             classSkill.setCharClass(charClass);
             classSkill.setId(key);
+
+            try
+            {
+                Skill skill = skillRepo.findById(key.getSkillID())
+                        .orElseThrow( () -> new Exception ("No such skill found") );
+
+                classSkill.setSkill(skill);
+                charClassSkillRepo.save(classSkill);
+            }
+            catch ( Exception e )
+            {
+                System.out.println( e.toString() );
+            }
             charClassSkillRepo.save(classSkill);
         }
 

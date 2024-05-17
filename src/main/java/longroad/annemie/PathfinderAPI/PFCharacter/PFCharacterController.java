@@ -170,6 +170,20 @@ public class PFCharacterController
                                   attributeRepo.save( target );
                               }
                           }
+                          else if ( key == "charClasses" )
+                          {
+                              Set<?> classesSet = objectMapper.convertValue(value, Set.class);
+
+                              // For each class we wish to modify, update the correct element and save it
+                              for ( Object charClass : classesSet )
+                              {
+                                  PFCharacterCharClass castClass = objectMapper.convertValue( charClass, PFCharacterCharClass.class );
+                                  castClass.setCharacter( targetChar );
+                                  castClass.getId().setCharacterID( targetChar.getCharacterID() );
+
+                                  classRepository.save(castClass);
+                              }
+                          }
                           else
                           {
                               Field field = ReflectionUtils.findField(PFCharacter.class, key);

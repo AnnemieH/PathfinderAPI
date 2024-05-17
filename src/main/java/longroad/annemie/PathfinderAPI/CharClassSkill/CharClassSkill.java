@@ -1,6 +1,7 @@
 package longroad.annemie.PathfinderAPI.CharClassSkill;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import longroad.annemie.PathfinderAPI.CharClass.CharClass;
 import longroad.annemie.PathfinderAPI.Skill.Skill;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ public class CharClassSkill
     @ManyToOne
     @MapsId("classID")
     @JoinColumn ( name = "char_class_id" )
-    @JsonBackReference ( value = "charClassSkills" )
+    @JsonIgnore
     private CharClass charClass;
 
     @ManyToOne
