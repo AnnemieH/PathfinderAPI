@@ -177,11 +177,18 @@ public class PFCharacterController
                               // For each class we wish to modify, update the correct element and save it
                               for ( Object charClass : classesSet )
                               {
-                                  PFCharacterCharClass castClass = objectMapper.convertValue( charClass, PFCharacterCharClass.class );
-                                  castClass.setCharacter( targetChar );
-                                  castClass.getId().setCharacterID( targetChar.getCharacterID() );
+                                  PFCharacterCharClass castClass = objectMapper.convertValue(charClass, PFCharacterCharClass.class);
+                                  castClass.setCharacter(targetChar);
+                                  castClass.getId().setCharacterID(targetChar.getCharacterID());
 
-                                  classRepository.save(castClass);
+                                  if (castClass.getLevel() != -1)
+                                  {
+                                      classRepository.save(castClass);
+                                  }
+                                  else
+                                  {
+                                      classRepository.deleteById(castClass.getId());
+                                  }
                               }
                           }
                           else
