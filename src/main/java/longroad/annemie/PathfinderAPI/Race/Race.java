@@ -2,9 +2,8 @@ package longroad.annemie.PathfinderAPI.Race;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import longroad.annemie.PathfinderAPI.CreatureSubtype.CreatureSubtype;
 import longroad.annemie.PathfinderAPI.CreatureType.CreatureType;
-import longroad.annemie.PathfinderAPI.RaceBuff.RaceBuff;
+import longroad.annemie.PathfinderAPI.RaceRaceFeature.RaceRaceFeature;
 import longroad.annemie.PathfinderAPI.RaceCreatureSubtype.RaceCreatureSubtype;
 import longroad.annemie.PathfinderAPI.Size.Size;
 
@@ -17,7 +16,7 @@ public class Race
     @Id
     @Column( name = "race_id", unique = true )
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private short race_id;
+    private short raceID;
 
     @Column( name = "race_name" )
     private String raceName;
@@ -42,13 +41,13 @@ public class Race
 
     @OneToMany
     @JoinColumn ( name = "race_id" )
-    private Set <RaceBuff> buffs;
+    private Set <RaceRaceFeature> raceFeatures;
 
     // GETTERS
 
-    public short getRace_id()
+    public short getRaceID()
     {
-        return race_id;
+        return raceID;
     }
 
     public String getRaceName()
@@ -81,8 +80,8 @@ public class Race
         return buffSlots;
     }
 
-    public Set<RaceBuff> getBuffs()
+    public Set<RaceRaceFeature> getRaceFeatures()
     {
-        return buffs;
+        return raceFeatures;
     }
 }

@@ -1,16 +1,16 @@
-package longroad.annemie.PathfinderAPI.RaceBuff;
+package longroad.annemie.PathfinderAPI.RaceRaceFeature;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import longroad.annemie.PathfinderAPI.Buff.Buff;
 import longroad.annemie.PathfinderAPI.Race.Race;
+import longroad.annemie.PathfinderAPI.RaceFeature.RaceFeature;
 
 @Entity
-@Table( name = "race_buff" )
-public class RaceBuff
+@Table( name = "race_race_feature" )
+public class RaceRaceFeature
 {
     @EmbeddedId
-    private RaceBuffKey id;
+    private RaceRaceKey id;
 
     @ManyToOne ( cascade = CascadeType.MERGE )
     @MapsId ( "raceID" )
@@ -19,16 +19,16 @@ public class RaceBuff
     private Race race;
 
     @ManyToOne ( cascade = CascadeType.MERGE )
-    @MapsId ( "buffID" )
-    @JoinColumn ( name = "buff_id" )
-    private Buff buff;
+    @MapsId ( "raceFeatureID" )
+    @JoinColumn ( name = "race_feature_id" )
+    private RaceFeature raceFeature;
 
     @Column ( name = "trait_slot" )
     private String traitSlot;
 
     // GETTERS
 
-    public RaceBuffKey getId()
+    public RaceRaceKey getId()
     {
         return id;
     }
@@ -38,9 +38,9 @@ public class RaceBuff
         return race;
     }
 
-    public Buff getBuff()
+    public RaceFeature getRaceFeature()
     {
-        return buff;
+        return raceFeature;
     }
 
     public String getTraitSlot()
@@ -50,7 +50,7 @@ public class RaceBuff
 
     // SETTERS
 
-    public void setId(RaceBuffKey id)
+    public void setId(RaceRaceKey id)
     {
         this.id = id;
     }
@@ -60,9 +60,9 @@ public class RaceBuff
         this.race = race;
     }
 
-    public void setBuff(Buff buff)
+    public void setRaceFeature(RaceFeature raceFeature)
     {
-        this.buff = buff;
+        this.raceFeature = raceFeature;
     }
 
     public void setTraitSlot(String traitSlot)

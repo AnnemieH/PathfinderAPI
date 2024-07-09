@@ -1,20 +1,19 @@
-package longroad.annemie.PathfinderAPI.ClassBuff;
+package longroad.annemie.PathfinderAPI.CharClassClassFeature;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Id;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ClassBuffKey implements Serializable
+public class CharClassClassFeatureKey implements Serializable
 {
     @Column( name = "class_id")
     private int classID;
 
-    @Column( name = "buff_id")
-    private int buffID;
+    @Column( name = "class_feature_id")
+    private int classFeatureID;
 
     @Column( name = "level")
     private short level;
@@ -26,9 +25,9 @@ public class ClassBuffKey implements Serializable
         return classID;
     }
 
-    public int getBuffID()
+    public int getClassFeatureID()
     {
-        return buffID;
+        return classFeatureID;
     }
 
     public short getLevel()
@@ -43,9 +42,9 @@ public class ClassBuffKey implements Serializable
         this.classID = classID;
     }
 
-    public void setBuffID(int buffID)
+    public void setClassFeatureID(int classFeatureID)
     {
-        this.buffID = buffID;
+        this.classFeatureID = classFeatureID;
     }
 
     public void setLevel(short level)
@@ -54,14 +53,14 @@ public class ClassBuffKey implements Serializable
     }
 
     // CONSTRUCTORS
-    public ClassBuffKey()
+    public CharClassClassFeatureKey()
     {
 
     }
-    public ClassBuffKey ( int classID, int buffID, short level )
+    public CharClassClassFeatureKey(int classID, int classFeatureID, short level)
     {
         this.classID = classID;
-        this.buffID = buffID;
+        this.classFeatureID = classFeatureID;
         this.level = level;
     }
 
@@ -77,14 +76,14 @@ public class ClassBuffKey implements Serializable
         {
             return false;
         }
-        ClassBuffKey that = (ClassBuffKey) o;
-        return classID == that.classID && buffID == that.buffID && level == that.level;
+        CharClassClassFeatureKey that = (CharClassClassFeatureKey) o;
+        return classID == that.classID && classFeatureID == that.classFeatureID && level == that.level;
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(classID, buffID, level);
+        return Objects.hash(classID, classFeatureID, level);
     }
 
 }

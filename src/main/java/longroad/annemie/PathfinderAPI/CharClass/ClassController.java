@@ -1,15 +1,14 @@
 package longroad.annemie.PathfinderAPI.CharClass;
 
 import jakarta.transaction.Transactional;
-import longroad.annemie.PathfinderAPI.Buff.Buff;
-import longroad.annemie.PathfinderAPI.Buff.BuffRepository;
+import longroad.annemie.PathfinderAPI.ClassFeature.ClassFeature;
+import longroad.annemie.PathfinderAPI.ClassFeature.ClassFeatureRepository;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkillKey;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkillRepository;
-import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
-import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuffKey;
-import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuffRepository;
-import longroad.annemie.PathfinderAPI.PFCharacter.PFCharacter;
+import longroad.annemie.PathfinderAPI.CharClassClassFeature.CharClassClassFeature;
+import longroad.annemie.PathfinderAPI.CharClassClassFeature.CharClassClassFeatureKey;
+import longroad.annemie.PathfinderAPI.CharClassClassFeature.CharClassClassFeatureRepository;
 import longroad.annemie.PathfinderAPI.Skill.Skill;
 import longroad.annemie.PathfinderAPI.Skill.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,9 @@ public class ClassController
     @Autowired
     ClassRepository classRepo;
     @Autowired
-    ClassBuffRepository classBuffRepo;
+    CharClassClassFeatureRepository charClassClassFeatureRepository;
     @Autowired
-    BuffRepository buffRepo;
+    ClassFeatureRepository classFeatureRepository;
     @Autowired
     CharClassSkillRepository charClassSkillRepo;
     @Autowired
@@ -50,26 +49,26 @@ public class ClassController
     {
         classRepo.save(charClass);
 
-        // Add the buffs to their join table
-        for ( ClassBuff classBuff : charClass.getBuffs() )
+        // Add the class features to their join table
+        for ( CharClassClassFeature charClassClassFeature : charClass.getClassFeatures() )
         {
-            ClassBuffKey key = new ClassBuffKey();
+            CharClassClassFeatureKey key = new CharClassClassFeatureKey();
             key.setClassID(charClass.getClassID());
-            key.setBuffID(classBuff.getId().getBuffID());
-            key.setLevel(classBuff.getId().getLevel());
+            key.setClassFeatureID(charClassClassFeature.getId().getClassFeatureID());
+            key.setLevel(charClassClassFeature.getId().getLevel());
 
-            classBuff.setId(key);
+            charClassClassFeature.setId(key);
 
-            classBuff.setCurrClass(charClass);
+            charClassClassFeature.setCurrClass(charClass);
 
             try
             {
-                Buff buff = buffRepo.findById(key.getBuffID())
+                ClassFeature classFeature = classFeatureRepository.findById(key.getClassFeatureID())
                         .orElseThrow( () -> new Exception ("No such buff found") );
 
-                classBuff.setBuff(buff);
+                charClassClassFeature.setClassFeature(classFeature);
 
-                classBuffRepo.save(classBuff);
+                charClassClassFeatureRepository.save(charClassClassFeature);
             }
             catch ( Exception e )
             {

@@ -5,13 +5,11 @@ import longroad.annemie.PathfinderAPI.Save.Save;
 import longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
 import longroad.annemie.PathfinderAPI.SpellSchool.SpellSchool;
 import longroad.annemie.PathfinderAPI.SpellRange.SpellRange;
-import longroad.annemie.PathfinderAPI.Time.Time;
+import longroad.annemie.PathfinderAPI.Action.Action;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table( name = "spell" )
@@ -31,11 +29,11 @@ public class Spell
 
     @ManyToOne( cascade = CascadeType.MERGE )
     @JoinColumn ( name = "casting_time" )
-    private Time castingTime;
+    private Action castingTime;
 
     @ManyToOne( cascade = CascadeType.MERGE )
     @JoinColumn ( name = "duration_increment" )
-    private Time durationIncrement;
+    private Action durationIncrement;
 
     @Column ( name = "duration_multiplier" )
     private short durationMultiplier;
@@ -81,12 +79,12 @@ public class Spell
         return spellLists;
     }
 
-    public Time getCastingTime()
+    public Action getCastingTime()
     {
         return castingTime;
     }
 
-    public Time getDurationIncrement()
+    public Action getDurationIncrement()
     {
         return durationIncrement;
     }

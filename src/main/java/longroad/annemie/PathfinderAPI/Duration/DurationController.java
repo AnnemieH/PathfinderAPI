@@ -1,4 +1,4 @@
-package longroad.annemie.PathfinderAPI.Race;
+package longroad.annemie.PathfinderAPI.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,23 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping( "/race" )
+@RequestMapping( "/durations")
 @CrossOrigin
-public class RaceController
+public class DurationController
 {
     // Repositories
     @Autowired
-    RaceRepository raceRepo;
+    DurationRepository durationRepository;
 
-    // Display details of all races
+    // Display details of all durations
     @GetMapping( "/all" )
-    public ResponseEntity< List< Race > > getAllRaces()
+    public ResponseEntity< List< Duration> > getAllDurations()
     {
-        return ResponseEntity.status(HttpStatus.OK).body(raceRepo.findAll());
-    }
-
-    public RaceController ( RaceRepository raceRepo )
-    {
-        this.raceRepo = raceRepo;
+        return ResponseEntity.status(HttpStatus.OK).body(durationRepository.findAll());
     }
 }

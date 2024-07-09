@@ -1,4 +1,4 @@
-package longroad.annemie.PathfinderAPI.RaceBuff;
+package longroad.annemie.PathfinderAPI.RaceRaceFeature;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -6,13 +6,13 @@ import jakarta.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-public class RaceBuffKey
+public class RaceRaceKey
 {
     @Column( name = "race_id" )
     private short raceID;
 
-    @Column( name = "buff_id" )
-    private int buffID;
+    @Column( name = "race_feature_id" )
+    private int raceFeatureID;
 
     // GETTERS
     public short getRaceID()
@@ -20,9 +20,9 @@ public class RaceBuffKey
         return raceID;
     }
 
-    public int getBuffID()
+    public int getRaceFeatureID()
     {
-        return buffID;
+        return raceFeatureID;
     }
 
     // SETTERS
@@ -32,20 +32,20 @@ public class RaceBuffKey
         this.raceID = raceID;
     }
 
-    public void setBuffID(int buffID)
+    public void setRaceFeatureID(int raceFeatureID)
     {
-        this.buffID = buffID;
+        this.raceFeatureID = raceFeatureID;
     }
 
     // CONSTRUCTORS
-    public RaceBuffKey()
+    public RaceRaceKey()
     {
 
     }
-    public RaceBuffKey ( short raceID, int buffID )
+    public RaceRaceKey(short raceID, int raceFeatureID)
     {
         this.raceID = raceID;
-        this.buffID = buffID;
+        this.raceFeatureID = raceFeatureID;
     }
 
     // OVERRIDDEN METHODS
@@ -60,13 +60,13 @@ public class RaceBuffKey
         {
             return false;
         }
-        RaceBuffKey that = (RaceBuffKey) o;
-        return raceID == that.raceID && buffID == that.buffID;
+        RaceRaceKey that = (RaceRaceKey) o;
+        return raceID == that.raceID && raceFeatureID == that.raceFeatureID;
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(raceID, buffID);
+        return Objects.hash(raceID, raceFeatureID);
     }
 }

@@ -2,7 +2,7 @@ package longroad.annemie.PathfinderAPI.CharClass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import longroad.annemie.PathfinderAPI.Attribute.Attribute;
-import longroad.annemie.PathfinderAPI.ClassBuff.ClassBuff;
+import longroad.annemie.PathfinderAPI.CharClassClassFeature.CharClassClassFeature;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
 import longroad.annemie.PathfinderAPI.MagicSource.MagicSource;
 import longroad.annemie.PathfinderAPI.SpellList.SpellList;
@@ -34,7 +34,7 @@ public class CharClass
     private boolean isPrestige;
 
     @OneToMany ( mappedBy = "currClass", orphanRemoval = true )
-    private Set<ClassBuff> buffs;
+    private Set<CharClassClassFeature> classFeatures;
 
     @Column (name="hit_die")
     private short hitDie;
@@ -156,9 +156,9 @@ public class CharClass
         return spellsKnown;
     }
 
-    public Set<ClassBuff> getBuffs()
+    public Set<CharClassClassFeature> getClassFeatures()
     {
-        return buffs;
+        return classFeatures;
     }
 
     public short getSkillRanks()
@@ -248,9 +248,9 @@ public class CharClass
         this.spellsKnown = spellsKnown;
     }
 
-    public void setBuffs(Set<ClassBuff> buffs)
+    public void setClassFeatures(Set<CharClassClassFeature> classFeatures)
     {
-        this.buffs = buffs;
+        this.classFeatures = classFeatures;
     }
 
     public void setSkillRanks(short skillRanks)

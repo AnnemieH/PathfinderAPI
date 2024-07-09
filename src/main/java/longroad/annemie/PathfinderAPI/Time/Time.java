@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 public class Time
 {
     @Id
-    @Column( name = "time_id", unique = true )
-    @GeneratedValue( strategy = GenerationType.AUTO )
+    @Column( name = "time_id" )
+    @GeneratedValue( strategy =  GenerationType.IDENTITY )
     private short timeID;
 
     @Column( name = "time_name" )
@@ -24,5 +24,17 @@ public class Time
     public String getTimeName()
     {
         return timeName;
+    }
+
+    // SETTERS
+
+    public void setTimeID(short timeID)
+    {
+        this.timeID = timeID;
+    }
+
+    public void setTimeName(String timeName)
+    {
+        this.timeName = timeName;
     }
 }
