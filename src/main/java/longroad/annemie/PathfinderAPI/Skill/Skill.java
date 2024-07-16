@@ -2,6 +2,7 @@ package longroad.annemie.PathfinderAPI.Skill;
 
 import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 @Entity
 @Table(name="skill")
@@ -22,8 +23,24 @@ public class Skill
     @Column (name="trained_only")
     private boolean trainedOnly;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/skills", false, toString()));
+    }
+
+
+    // GETTERS
     public short getSkillID()
     {
         return skillID;
@@ -39,13 +56,17 @@ public class Skill
         return attribute;
     }
 
-    public boolean getTrainedOnly()
+    public boolean isTrainedOnly()
     {
         return trainedOnly;
     }
 
-    // SETTERS
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
 
+    // SETTERS
     public void setSkillID(short skillID)
     {
         this.skillID = skillID;
@@ -64,5 +85,17 @@ public class Skill
     public void setTrainedOnly(boolean trainedOnly)
     {
         this.trainedOnly = trainedOnly;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+    @Override
+    public String toString()
+    {
+        return getSkillName();
     }
 }

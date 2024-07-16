@@ -6,7 +6,7 @@ import jakarta.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-public class RaceRaceKey
+public class RaceRaceFeatureKey
 {
     @Column( name = "race_id" )
     private short raceID;
@@ -38,11 +38,11 @@ public class RaceRaceKey
     }
 
     // CONSTRUCTORS
-    public RaceRaceKey()
+    public RaceRaceFeatureKey()
     {
 
     }
-    public RaceRaceKey(short raceID, int raceFeatureID)
+    public RaceRaceFeatureKey(short raceID, int raceFeatureID)
     {
         this.raceID = raceID;
         this.raceFeatureID = raceFeatureID;
@@ -60,7 +60,7 @@ public class RaceRaceKey
         {
             return false;
         }
-        RaceRaceKey that = (RaceRaceKey) o;
+        RaceRaceFeatureKey that = (RaceRaceFeatureKey) o;
         return raceID == that.raceID && raceFeatureID == that.raceFeatureID;
     }
 

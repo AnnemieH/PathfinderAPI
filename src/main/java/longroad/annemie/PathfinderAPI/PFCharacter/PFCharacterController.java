@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 @RestController
-@RequestMapping("/character")
+@RequestMapping("/characters")
 @CrossOrigin
 public class PFCharacterController
 {

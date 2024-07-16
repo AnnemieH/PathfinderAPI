@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/class")
+@RequestMapping("/classes")
 @CrossOrigin
 public class ClassController
 {
@@ -36,7 +36,7 @@ public class ClassController
 
 
     // Display details of all classes
-    @GetMapping("allClasses")
+    @GetMapping("/all")
     public ResponseEntity<List<CharClass>> getAllClasses()
     {
         return ResponseEntity.status(HttpStatus.OK).body(classRepo.findAll());
@@ -44,7 +44,7 @@ public class ClassController
 
     // Post a new class
     @Transactional
-    @PostMapping("allClasses")
+    @PostMapping("all")
     public ResponseEntity<CharClass> addCharClass( @RequestBody CharClass charClass )
     {
         classRepo.save(charClass);

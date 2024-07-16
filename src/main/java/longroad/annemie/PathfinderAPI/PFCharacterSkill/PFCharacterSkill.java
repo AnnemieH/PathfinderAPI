@@ -3,6 +3,7 @@ package longroad.annemie.PathfinderAPI.PFCharacterSkill;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.PFCharacter.PFCharacter;
 import longroad.annemie.PathfinderAPI.Skill.Skill;
 
@@ -29,6 +30,22 @@ public class PFCharacterSkill
     @Column ( name = "ranks" )
     private short ranks;
 
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/characterSkills", true, toString()));
+    }
+
     // GETTERS
     public PFCharacterSkillKey getId()
     {
@@ -48,6 +65,11 @@ public class PFCharacterSkill
     public short getRanks()
     {
         return ranks;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
     }
 
     // SETTERS
@@ -71,6 +93,11 @@ public class PFCharacterSkill
         this.ranks = ranks;
     }
 
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
     // OVERRIDDEN METHODS
     @Override
     public boolean equals(Object o)
@@ -91,5 +118,12 @@ public class PFCharacterSkill
     public int hashCode()
     {
         return Objects.hash(id, character, skill, ranks);
+    }
+
+    @Override
+    public String toString()
+    {
+        return getSkill().getSkillName() + ": " +
+               getRanks() + " ranks";
     }
 }

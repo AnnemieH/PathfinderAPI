@@ -3,6 +3,7 @@ package longroad.annemie.PathfinderAPI.RaceCreatureSubtype;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.CreatureSubtype.CreatureSubtype;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.Race.Race;
 
 @Entity
@@ -23,6 +24,22 @@ public class RaceCreatureSubtype
     @JoinColumn ( name = "creature_subtype_id" )
     private CreatureSubtype creatureSubtype;
 
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/raceCreatureSubtypes", true, toString()));
+    }
+
     // GETTERS
     public RaceCreatureSubtypeKey getId()
     {
@@ -37,6 +54,11 @@ public class RaceCreatureSubtype
     public CreatureSubtype getCreatureSubtype()
     {
         return creatureSubtype;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
     }
 
     // SETTERS
@@ -54,5 +76,17 @@ public class RaceCreatureSubtype
     public void setCreatureSubtype(CreatureSubtype creatureSubtype)
     {
         this.creatureSubtype = creatureSubtype;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+    @Override
+    public String toString()
+    {
+        return getCreatureSubtype().toString();
     }
 }

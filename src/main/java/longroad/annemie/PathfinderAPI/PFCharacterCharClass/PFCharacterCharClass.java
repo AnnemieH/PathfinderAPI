@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.CharClass.CharClass;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.PFCharacter.PFCharacter;
 
 import java.util.Objects;
@@ -32,6 +33,22 @@ public class PFCharacterCharClass
     @Column ( name = "hp" )
     private int hp;
 
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/characterCharClasses", true, toString()));
+    }
+
     // GETTERS
     public PFCharacterCharClassKey getId()
     {
@@ -58,6 +75,11 @@ public class PFCharacterCharClass
         return hp;
     }
 
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
     // SETTERS
     public void setId(PFCharacterCharClassKey id)
     {
@@ -82,6 +104,11 @@ public class PFCharacterCharClass
     public void setHp(int hp)
     {
         this.hp = hp;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
     }
 
     // CONSTRUCTORS
@@ -122,5 +149,11 @@ public class PFCharacterCharClass
     public int hashCode()
     {
         return Objects.hash(id, character, charClass, level);
+    }
+
+    @Override
+    public String toString()
+    {
+        return getCharClass().toString();
     }
 }

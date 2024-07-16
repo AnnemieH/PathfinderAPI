@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/subtype")
+@RequestMapping("/creatureSubtypes")
 @CrossOrigin
 public class CreatureSubtypeController
 {

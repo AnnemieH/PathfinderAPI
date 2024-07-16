@@ -3,6 +3,7 @@ package longroad.annemie.PathfinderAPI.PFCharacterAttribute;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.Attribute.Attribute;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.PFCharacter.PFCharacter;
 
 import java.util.Objects;
@@ -28,20 +29,23 @@ public class PFCharacterAttribute
     @Column( name = "value" )
     private short value;
 
-    @Override
-    public String toString()
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
     {
-        return "PFCharacterAttribute{" +
-               "characterID=" + id.getCharacterID() +
-               ", attributeID=" + id.getAttributeID() +
-               ", character=" + character.getName() +
-               ", attribute=" + attribute.getAttributeName() +
-               ", value=" + value +
-               '}';
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/characterAttributes", true, toString()));
     }
 
     // GETTERS
-
     public PFCharacterAttributeKey getId()
     {
         return id;
@@ -60,6 +64,11 @@ public class PFCharacterAttribute
     public short getValue()
     {
         return value;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
     }
 
     // SETTERS
@@ -81,6 +90,11 @@ public class PFCharacterAttribute
     public void setValue(short value)
     {
         this.value = value;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
     }
 
     // CONSTRUCTORS
@@ -105,6 +119,8 @@ public class PFCharacterAttribute
         this.value = value;
     }
 
+
+    // Overridden methods
     @Override
     public boolean equals(Object o)
     {
@@ -124,5 +140,11 @@ public class PFCharacterAttribute
     public int hashCode()
     {
         return Objects.hash(id, character, attribute, value);
+    }
+
+    @Override
+    public String toString()
+    {
+        return getAttribute().getAttributeName() + ": " + getValue();
     }
 }

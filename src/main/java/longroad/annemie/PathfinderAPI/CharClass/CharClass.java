@@ -5,6 +5,7 @@ import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import longroad.annemie.PathfinderAPI.CharClassClassFeature.CharClassClassFeature;
 import longroad.annemie.PathfinderAPI.CharClassSkill.CharClassSkill;
 import longroad.annemie.PathfinderAPI.MagicSource.MagicSource;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.SpellList.SpellList;
 import longroad.annemie.PathfinderAPI.SpellcasterType.SpellcasterType;
 import jakarta.persistence.*;
@@ -78,9 +79,23 @@ public class CharClass
     @OneToMany ( mappedBy = "charClass", orphanRemoval = true )
     private Set<CharClassSkill> classSkills = new HashSet<>();
 
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/classes", true, toString()));
+    }
 
     // GETTERS
-
     public int getClassID()
     {
         return classID;
@@ -169,6 +184,11 @@ public class CharClass
     public Set<CharClassSkill> getClassSkills()
     {
         return classSkills;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
     }
 
     // SETTERS
@@ -261,5 +281,28 @@ public class CharClass
     public void setClassSkills(Set<CharClassSkill> classSkills)
     {
         this.classSkills = classSkills;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+
+    // toString() should give the class name unless it is an archetype
+    // in which case format it as baseClass (archetype)
+    @Override
+    public String toString()
+    {
+        if ( getArchetype() == null )
+        {
+            return getClassName();
+        }
+        else
+        {
+            return getArchetype().getClassName() + " (" +
+                   getClassName() + ")";
+        }
     }
 }

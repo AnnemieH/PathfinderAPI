@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.BuffType.BuffType;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.RaceRaceFeature.RaceRaceFeature;
 
 import java.util.HashSet;
@@ -36,9 +37,25 @@ public class RaceFeature
     @JoinColumn ( name = "buff_type_id")
     private BuffType buffType;
 
-    // Ensure that buffDesc is set correctly
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
     @PostLoad
-    public void init()
+    private void init()
+    {
+        buffDescInit();
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/raceFeatures", true, toString()));
+    }
+
+    // Ensure that buffDesc is initiälised correctly
+    public void buffDescInit()
     {
         // If descriptionRaw is non-empty, split it at newline characters
         if (descriptionRaw != null )
@@ -47,10 +64,7 @@ public class RaceFeature
         }
     }
 
-
-
     // GETTERS
-
     public int getRaceFeatureID()
     {
         return raceFeatureID;
@@ -76,8 +90,12 @@ public class RaceFeature
         return buffType;
     }
 
-    // SETTERS
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
 
+    // SETTERS
     public void setRaceFeatureID(int raceFeatureID)
     {
         this.raceFeatureID = raceFeatureID;
@@ -126,5 +144,18 @@ public class RaceFeature
     public void setBuffType(BuffType buffType)
     {
         this.buffType = buffType;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+
+    @Override
+    public String toString()
+    {
+        return getName();
     }
 }

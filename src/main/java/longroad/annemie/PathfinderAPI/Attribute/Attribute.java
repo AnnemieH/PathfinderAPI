@@ -1,6 +1,7 @@
 package longroad.annemie.PathfinderAPI.Attribute;
 
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 @Entity
 @Table (name="attribute")
@@ -16,6 +17,22 @@ public class Attribute
 
     @Column ( name = "short_name")
     private String shortName;
+
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/attribute", false, toString()));
+    }
 
     // GETTERS
 
@@ -34,6 +51,11 @@ public class Attribute
         return shortName;
     }
 
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
     // SETTERS
 
     public void setAttributeID(short attributeID)
@@ -49,5 +71,18 @@ public class Attribute
     public void setShortName(String shortName)
     {
         this.shortName = shortName;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+
+    @Override
+    public String toString()
+    {
+        return getAttributeName();
     }
 }

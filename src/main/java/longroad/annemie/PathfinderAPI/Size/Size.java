@@ -1,6 +1,7 @@
 package longroad.annemie.PathfinderAPI.Size;
 
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 @Entity
 @Table( name = "size" )
@@ -27,8 +28,24 @@ public class Size
     @Column ( name = "reach" )
     private short reach;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/sizes", false, toString()));
+    }
+
+
+    // GETTERS
     public short getSizeID()
     {
         return sizeID;
@@ -57,5 +74,54 @@ public class Size
     public short getReach()
     {
         return reach;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
+    // SETTERS
+
+    public void setSizeID(short sizeID)
+    {
+        this.sizeID = sizeID;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setSizeModifier(short sizeModifier)
+    {
+        this.sizeModifier = sizeModifier;
+    }
+
+    public void setFlightModifier(short flightModifier)
+    {
+        this.flightModifier = flightModifier;
+    }
+
+    public void setSpace(float space)
+    {
+        this.space = space;
+    }
+
+    public void setReach(short reach)
+    {
+        this.reach = reach;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+    @Override
+    public String toString()
+    {
+        return getName();
     }
 }

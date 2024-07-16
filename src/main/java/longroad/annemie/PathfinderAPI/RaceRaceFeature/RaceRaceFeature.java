@@ -2,6 +2,7 @@ package longroad.annemie.PathfinderAPI.RaceRaceFeature;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.Race.Race;
 import longroad.annemie.PathfinderAPI.RaceFeature.RaceFeature;
 
@@ -10,7 +11,7 @@ import longroad.annemie.PathfinderAPI.RaceFeature.RaceFeature;
 public class RaceRaceFeature
 {
     @EmbeddedId
-    private RaceRaceKey id;
+    private RaceRaceFeatureKey id;
 
     @ManyToOne ( cascade = CascadeType.MERGE )
     @MapsId ( "raceID" )
@@ -26,9 +27,24 @@ public class RaceRaceFeature
     @Column ( name = "trait_slot" )
     private String traitSlot;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
-    public RaceRaceKey getId()
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/raceRaceFeatures", true, toString()));
+    }
+
+    // GETTERS
+    public RaceRaceFeatureKey getId()
     {
         return id;
     }
@@ -48,9 +64,13 @@ public class RaceRaceFeature
         return traitSlot;
     }
 
-    // SETTERS
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
 
-    public void setId(RaceRaceKey id)
+    // SETTERS
+    public void setId(RaceRaceFeatureKey id)
     {
         this.id = id;
     }
@@ -68,5 +88,19 @@ public class RaceRaceFeature
     public void setTraitSlot(String traitSlot)
     {
         this.traitSlot = traitSlot;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+    @Override
+    public String toString()
+    {
+        return getRaceFeature().getName() + " is a feature of " +
+               getRace().getRaceName() + " occupying slot " +
+               getTraitSlot();
     }
 }

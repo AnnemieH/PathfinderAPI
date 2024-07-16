@@ -1,6 +1,7 @@
 package longroad.annemie.PathfinderAPI.SpellList;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
 import jakarta.persistence.*;
 
@@ -23,10 +24,25 @@ public class SpellList
 
     @OneToMany ( mappedBy = "spellList" )
     @JsonManagedReference (value = "spellListSpells" )
-    private List<SpellListSpell> Spells = new ArrayList<>();
+    private List<SpellListSpell> spells = new ArrayList<>();
+
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/spelllists", false, toString()));
+    }
 
     // GETTERS
-
     public short getSpellListID()
     {
         return spellListID;
@@ -39,6 +55,40 @@ public class SpellList
 
     public List<SpellListSpell> getSpells()
     {
-        return Spells;
+        return spells;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
+    // SETTERS
+
+    public void setSpellListID(short spellListID)
+    {
+        this.spellListID = spellListID;
+    }
+
+    public void setSpellListName(String spellListName)
+    {
+        this.spellListName = spellListName;
+    }
+
+    public void setSpells(List<SpellListSpell> spells)
+    {
+        this.spells = spells;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // OvERRIDDEN METHODS
+    @Override
+    public String toString()
+    {
+        return getSpellListName();
     }
 }

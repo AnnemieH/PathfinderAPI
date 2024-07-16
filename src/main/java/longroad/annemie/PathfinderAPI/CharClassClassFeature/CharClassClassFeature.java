@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import longroad.annemie.PathfinderAPI.ClassFeature.ClassFeature;
 import longroad.annemie.PathfinderAPI.CharClass.CharClass;
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 import java.util.Objects;
 
@@ -25,8 +26,23 @@ public class CharClassClassFeature
     @JoinColumn ( name = "class_feature_id" )
     private ClassFeature classFeature;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/charClassClassFeatures", true, toString()));
+    }
+
+    // GETTERS
     public CharClassClassFeatureKey getId()
     {
         return id;
@@ -40,6 +56,11 @@ public class CharClassClassFeature
     public ClassFeature getClassFeature()
     {
         return classFeature;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
     }
 
     // SETTERS
@@ -58,6 +79,11 @@ public class CharClassClassFeature
         this.classFeature = classFeature;
     }
 
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
     // CONSTRUCTORS
     public CharClassClassFeature()
     {
@@ -71,6 +97,8 @@ public class CharClassClassFeature
         this.classFeature = classFeature;
     }
 
+
+    // Overridden methods
     @Override
     public boolean equals(Object o)
     {
@@ -90,5 +118,14 @@ public class CharClassClassFeature
     public int hashCode()
     {
         return Objects.hash(id, currClass, classFeature);
+    }
+
+    @Override
+    public String toString()
+    {
+        return getClassFeature().toString() + " is a class feature of " +
+               getCurrClass().toString() + " from level " +
+               getId().getLevel();
+
     }
 }

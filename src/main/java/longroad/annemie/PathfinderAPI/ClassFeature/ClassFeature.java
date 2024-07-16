@@ -3,10 +3,13 @@ package longroad.annemie.PathfinderAPI.ClassFeature;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import longroad.annemie.PathfinderAPI.BuffCategory.BuffCategory;
 import longroad.annemie.PathfinderAPI.BuffType.BuffType;
 import longroad.annemie.PathfinderAPI.CharClassClassFeature.CharClassClassFeature;
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.ClassFeatureBonus.ClassFeatureBonus;
 import longroad.annemie.PathfinderAPI.Duration.Duration;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -53,9 +56,32 @@ public class ClassFeature
     @JsonInclude ( JsonInclude.Include.NON_EMPTY )
     private Duration durationRecharge;
 
-    // Ensure that buffDesc is set correctly
+    @ManyToOne
+    @JoinColumn ( name = "category" )
+    private BuffCategory buffCategory;
+
+    @OneToMany ( mappedBy = "classFeature", orphanRemoval = true )
+    private Set <ClassFeatureBonus> bonuses = new HashSet<>();
+
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
     @PostLoad
-    public void init()
+    private void init()
+    {
+        buffDescInit();
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/classFeatures", true, toString()));
+    }
+
+    // Ensure that buffDesc is set correctly
+    public void buffDescInit()
     {
         // If buffDescriptionRaw is non-empty, split it at newline characters
         if (descriptionRaw != null )
@@ -63,8 +89,6 @@ public class ClassFeature
             description = descriptionRaw.split("\\\\n");
         }
     }
-
-
 
     // GETTERS
 
@@ -107,8 +131,23 @@ public class ClassFeature
     {
         return durationRecharge;
     }
-    // SETTERS
 
+    public BuffCategory getBuffCategory()
+    {
+        return buffCategory;
+    }
+
+    public Set<ClassFeatureBonus> getBonuses()
+    {
+        return bonuses;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
+    // SETTERS
     public void setClassFeatureID(int classFeatureID)
     {
         this.classFeatureID = classFeatureID;
@@ -159,4 +198,26 @@ public class ClassFeature
         this.buffType = buffType;
     }
 
+    public void setBuffCategory(BuffCategory buffCategory)
+    {
+        this.buffCategory = buffCategory;
+    }
+
+    public void setBonuses(Set<ClassFeatureBonus> bonuses)
+    {
+        this.bonuses = bonuses;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+
+    @Override
+    public String toString()
+    {
+        return getName() + "(" + getBuffType().getShortTypeName() + ")";
+    }
 }

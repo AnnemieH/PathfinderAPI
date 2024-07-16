@@ -3,6 +3,7 @@ package longroad.annemie.PathfinderAPI.CreatureType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.CreatureSubtype.CreatureSubtype;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 import java.util.Set;
 
@@ -18,8 +19,23 @@ public class CreatureType
     @Column( name = "name" )
     private String name;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/creatureTypes", false, toString()));
+    }
+
+    // GETTERS
     public int getCreatureTypeID()
     {
         return creatureTypeID;
@@ -30,8 +46,12 @@ public class CreatureType
         return name;
     }
 
-    // SETTERS
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
 
+    // SETTERS
     public void setCreatureTypeID(int creatureTypeID)
     {
         this.creatureTypeID = creatureTypeID;
@@ -40,5 +60,18 @@ public class CreatureType
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+
+    @Override
+    public String toString()
+    {
+        return getName();
     }
 }

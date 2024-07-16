@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/buffType")
+@RequestMapping("/buffTypes")
 @CrossOrigin
 public class BuffTypeController
 {
     BuffTypeRepository buffTypeRepo;
 
     // Display details of all buff types
-    @GetMapping("/allBuffTypes")
+    @GetMapping("/all")
     public ResponseEntity<List<BuffType>> getAllBuffTYpes()
     {
         return ResponseEntity.status(HttpStatus.OK).body(buffTypeRepo.findAll());

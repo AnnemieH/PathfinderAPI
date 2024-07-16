@@ -3,6 +3,7 @@ package longroad.annemie.PathfinderAPI.PFCharacter;
 import jakarta.persistence.*;
 import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import longroad.annemie.PathfinderAPI.CharClass.CharClass;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.PFCharacterAttribute.PFCharacterAttribute;
 import longroad.annemie.PathfinderAPI.PFCharacterAttribute.PFCharacterAttributeKey;
 import longroad.annemie.PathfinderAPI.PFCharacterCharClass.PFCharacterCharClass;
@@ -11,9 +12,12 @@ import longroad.annemie.PathfinderAPI.PFCharacterSkill.PFCharacterSkill;
 import longroad.annemie.PathfinderAPI.PFCharacterSkill.PFCharacterSkillKey;
 import longroad.annemie.PathfinderAPI.Race.Race;
 import longroad.annemie.PathfinderAPI.Skill.Skill;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @Table ( name = "character_table" )
@@ -39,6 +43,22 @@ public class PFCharacter
 
     @OneToMany ( mappedBy = "character", orphanRemoval = true )
     private Set<PFCharacterSkill> skillRanks = new HashSet<>();
+
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/characters", true, toString()));
+    }
 
     // MEMBER FUNCTIONS
     // Add ids to classes, attributes & skills
@@ -240,6 +260,11 @@ public class PFCharacter
         return skillRanks;
     }
 
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
     // SETTERS
     public void setCharacterID(int characterID)
     {
@@ -271,6 +296,11 @@ public class PFCharacter
         this.skillRanks = skillRanks;
     }
 
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
     // CONSTRUCTORS
     public PFCharacter ()
     {
@@ -290,5 +320,49 @@ public class PFCharacter
         this.charClasses = classes;
         this.attributes = attributes;
         this.skillRanks = skillRanks;
+    }
+
+    // Overridden methods
+    @Override
+    public String toString()
+    {
+
+        String output = getName();
+        if ( getRace().getRaceID() == 5 && getName().equals("Terrible") )
+        {
+            output += " the half-human";
+        }
+        else
+        {
+            output += " the " + getRace().getRaceName();
+        }
+
+        // For every class, add them as a comma-separated list
+        // replacing the comma with an ampersand for the last one
+        String classesStr = " ";
+
+        for ( PFCharacterCharClass charClass : charClasses )
+        {
+            if (classesStr.equals(" "))
+            {
+                classesStr += charClass.toString();
+            }
+            else
+            {
+                classesStr += ", " + charClass.toString();
+            }
+        }
+
+        // Remove the final comma and replace it with " &" (also fuck regex)
+        Pattern findFinalComma = Pattern.compile("(,)[^,]*$");
+        Matcher finalClassMatch = findFinalComma.matcher(classesStr);
+        finalClassMatch.find();
+        classesStr = classesStr.substring(0, finalClassMatch.start()) + " &" +
+                     classesStr.substring(finalClassMatch.start() + 1);
+
+
+        output += classesStr;
+
+        return output;
     }
 }

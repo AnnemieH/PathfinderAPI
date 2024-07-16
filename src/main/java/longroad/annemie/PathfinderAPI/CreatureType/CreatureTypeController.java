@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping( "/creatureType")
+@RequestMapping( "/creatureTypes")
 @CrossOrigin
 public class CreatureTypeController
 {

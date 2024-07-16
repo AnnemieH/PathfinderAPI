@@ -1,6 +1,7 @@
 package longroad.annemie.PathfinderAPI.Spell;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.Save.Save;
 import longroad.annemie.PathfinderAPI.SpellListSpell.SpellListSpell;
 import longroad.annemie.PathfinderAPI.SpellSchool.SpellSchool;
@@ -62,8 +63,23 @@ public class Spell
     @Column ( name = "spell_resistance" )
     private boolean spellResistance;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/spells", true, toString()));
+    }
+
+    // GETTERS
     public int getSpellID()
     {
         return spellID;
@@ -127,5 +143,88 @@ public class Spell
     public boolean getSpellResistance()
     {
         return spellResistance;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
+    // SETTErS
+    public void setSpellID(int spellID)
+    {
+        this.spellID = spellID;
+    }
+
+    public void setSpellname(String spellname)
+    {
+        this.spellname = spellname;
+    }
+
+    public void setSpellLists(List<SpellListSpell> spellLists)
+    {
+        this.spellLists = spellLists;
+    }
+
+    public void setCastingTime(Action castingTime)
+    {
+        this.castingTime = castingTime;
+    }
+
+    public void setDurationIncrement(Action durationIncrement)
+    {
+        this.durationIncrement = durationIncrement;
+    }
+
+    public void setDurationMultiplier(short durationMultiplier)
+    {
+        this.durationMultiplier = durationMultiplier;
+    }
+
+    public void setDurationScaleByNLevels(short durationScaleByNLevels)
+    {
+        this.durationScaleByNLevels = durationScaleByNLevels;
+    }
+
+    public void setRange(SpellRange range)
+    {
+        this.range = range;
+    }
+
+    public void setRangeMultiplier(short rangeMultiplier)
+    {
+        this.rangeMultiplier = rangeMultiplier;
+    }
+
+    public void setTarget(String target)
+    {
+        this.target = target;
+    }
+
+    public void setSchool(SpellSchool school)
+    {
+        this.school = school;
+    }
+
+    public void setSave(Save save)
+    {
+        this.save = save;
+    }
+
+    public void setSpellResistance(boolean spellResistance)
+    {
+        this.spellResistance = spellResistance;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+    @Override
+    public String toString()
+    {
+        return getSpellname();
     }
 }

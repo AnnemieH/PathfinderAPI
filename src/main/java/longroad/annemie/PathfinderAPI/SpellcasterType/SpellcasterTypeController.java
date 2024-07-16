@@ -16,7 +16,7 @@ public class SpellcasterTypeController
 {
     SpellcasterTypeRepository typeRepo;
 
-    @GetMapping("/allSpellcasterTypes")
+    @GetMapping("/all")
     public ResponseEntity<List<SpellcasterType>> getAllSpellcasterTypes()
     {
         return ResponseEntity.status(HttpStatus.OK).body((typeRepo.findAll()));

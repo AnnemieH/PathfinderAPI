@@ -2,6 +2,7 @@ package longroad.annemie.PathfinderAPI.Save;
 
 import longroad.annemie.PathfinderAPI.Attribute.Attribute;
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 @Entity
 @Table( name = "save")
@@ -22,8 +23,23 @@ public class Save
     @JoinColumn ( name = "attribute" )
     private Attribute attribute;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/saves", false, toString()));
+    }
+
+    // GETTERS
     public short getSaveID()
     {
         return saveID;
@@ -42,5 +58,45 @@ public class Save
     public Attribute getAttribute()
     {
         return attribute;
+    }
+
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
+
+    // SETTERS
+
+    public void setSaveID(short saveID)
+    {
+        this.saveID = saveID;
+    }
+
+    public void setSaveName(String saveName)
+    {
+        this.saveName = saveName;
+    }
+
+    public void setSaveNameShort(String saveNameShort)
+    {
+        this.saveNameShort = saveNameShort;
+    }
+
+    public void setAttribute(Attribute attribute)
+    {
+        this.attribute = attribute;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+
+    @Override
+    public String toString()
+    {
+        return getSaveName();
     }
 }

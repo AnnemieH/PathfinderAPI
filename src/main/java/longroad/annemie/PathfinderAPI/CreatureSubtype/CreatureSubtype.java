@@ -1,8 +1,7 @@
 package longroad.annemie.PathfinderAPI.CreatureSubtype;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import longroad.annemie.PathfinderAPI.CreatureType.CreatureType;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 
 @Entity
 @Table ( name = "creature_subtype" )
@@ -16,8 +15,23 @@ public class CreatureSubtype
     @Column( name = "name" )
     private String name;
 
-    // GETTERS
+    @Transient
+    private Metadata metadata;
 
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/creatureSubtypes", false, toString()));
+    }
+
+    // GETTERS
     public int getCreatureTypeID()
     {
         return creatureSubtypeID;
@@ -28,8 +42,12 @@ public class CreatureSubtype
         return name;
     }
 
-    // SETTERS
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
 
+    // SETTERS
     public void setCreatureTypeID(int creatureSubtypeID)
     {
         this.creatureSubtypeID = creatureSubtypeID;
@@ -38,5 +56,17 @@ public class CreatureSubtype
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+    @Override
+    public String toString()
+    {
+        return getName();
     }
 }

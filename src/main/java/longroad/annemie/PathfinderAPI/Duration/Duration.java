@@ -2,6 +2,8 @@ package longroad.annemie.PathfinderAPI.Duration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import longroad.annemie.PathfinderAPI.Attribute.Attribute;
+import longroad.annemie.PathfinderAPI.Metadata.Metadata;
 import longroad.annemie.PathfinderAPI.Time.Time;
 
 @Entity
@@ -25,9 +27,26 @@ public class Duration
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Short level;
 
-    @Column ( name = "attribute_modifier" )
+    @ManyToOne
+    @JoinColumn ( name = "attribute_modifier" )
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Short attributeModifier;
+    private Attribute attributeModifier;
+
+    @Transient
+    private Metadata metadata;
+
+    // Initialisation
+    @PostLoad
+    private void init()
+    {
+        metadataInit();
+    }
+
+    // Ensure metadata is initiälised properly
+    private void metadataInit()
+    {
+        setMetadata(new Metadata("/durations", true, toString()));
+    }
 
     // GETTERS
 
@@ -51,13 +70,17 @@ public class Duration
         return level;
     }
 
-    public Short getAttributeModifier()
+    public Attribute getAttributeModifier()
     {
         return attributeModifier;
     }
 
-    // SETTERS
+    public Metadata getMetadata()
+    {
+        return metadata;
+    }
 
+    // SETTERS
     public void setDurationID(int durationID)
     {
         this.durationID = durationID;
@@ -78,8 +101,40 @@ public class Duration
         this.level = level;
     }
 
-    public void setAttributeModifier(Short attributeModifier)
+    public void setAttributeModifier(Attribute attributeModifier)
     {
         this.attributeModifier = attributeModifier;
+    }
+
+    public void setMetadata(Metadata metadata)
+    {
+        this.metadata = metadata;
+    }
+
+    // Overridden methods
+
+    @Override
+    public String toString()
+    {
+        String output = "";
+
+        if ( getConstant() != null )
+        {
+            output += getConstant();
+        }
+
+        if ( getAttributeModifier() != null )
+        {
+            output += " + " + getAttributeModifier().getShortName();
+        }
+
+        if ( getLevel() != null )
+        {
+            output += " + " + getLevel() + "/level";
+        }
+
+        output += " " + getUnit().getTimeName() + "(s)";
+
+        return output;
     }
 }

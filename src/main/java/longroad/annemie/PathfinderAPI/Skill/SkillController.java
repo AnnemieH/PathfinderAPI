@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/skill")
+@RequestMapping("/skills")
 @CrossOrigin
 public class SkillController
 {
@@ -15,7 +15,7 @@ public class SkillController
     SkillRepository skillRepo;
 
     // Display details of all classes
-    @GetMapping("allSkills")
+    @GetMapping("/all")
     public Iterable<Skill> getAllSkills()
     {
         return skillRepo.findAll();
